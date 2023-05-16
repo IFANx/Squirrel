@@ -2,7 +2,7 @@ package mysql.src.ast;
 
 import static mysql.src.Utils.trimString;
 import static mysql.src.ast.DataType.kDataWhatever;
-import static mysql.src.ast.ast.gen_id_name;
+import static mysql.src.ast.AST.gen_id_name;
 
 public class IR {
     public int scope;

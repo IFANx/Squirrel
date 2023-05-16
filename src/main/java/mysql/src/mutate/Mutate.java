@@ -13,7 +13,7 @@ import static mysql.src.ast.DataFlag.*;
 import static mysql.src.ast.DataType.*;
 import static mysql.src.ast.IRType.*;
 import static mysql.src.ast.IRType.kStmtlist;
-import static mysql.src.ast.ast.*;
+import static mysql.src.ast.AST.*;
 
 
 public class Mutate extends Mutator {

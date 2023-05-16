@@ -7,7 +7,7 @@ import mysql.src.ast.node.*;
 import static mysql.src.ast.DataType.*;
 import static mysql.src.ast.NodeType.*;
 
-public class ast {
+public class AST {
     public static long g_id_counter;
 
     public static String gen_id_name() {

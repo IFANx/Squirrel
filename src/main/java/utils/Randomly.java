@@ -1,3 +1,5 @@
+package utils;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -170,7 +172,7 @@ public final class Randomly {
 
     private static ThreadLocal<Random> getThreadRandom() {
         if (THREAD_RANDOM.get() == null) {
-            // a static method has been called, before Randomly was instantiated
+            // a static method has been called, before utils.Randomly was instantiated
             THREAD_RANDOM.set(new Random());
         }
         return THREAD_RANDOM;
