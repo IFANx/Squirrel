@@ -27,6 +27,10 @@ public class MySQL extends DataBase {
 
     }
 
+    public static MySQL create_mysql() {
+        return new MySQL();
+    }
+
     private int validate_all(List<IR> ir_set) {
         for (IR ir : ir_set) {
             boolean result = this.mutator.validate(ir);
