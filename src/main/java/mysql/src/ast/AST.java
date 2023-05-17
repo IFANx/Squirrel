@@ -1086,8 +1086,17 @@ public class AST {
         return kDataWhatever;
     }
 
-    public void deepDelete(IR ir) {
-        ir = null;
+    public static void deepDelete(IR root) {
+        if (root.left != null) {
+            deepDelete(root.left);
+        }
+        if (root.right != null) {
+            deep_copy(root.right);
+        }
+        if (root.op != null) {
+            root.op = null;
+        }
+        root = null;
     }
 
     public static IR deep_copy(IR root) {

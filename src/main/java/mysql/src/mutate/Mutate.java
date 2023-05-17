@@ -1279,6 +1279,13 @@ public class Mutate extends Mutator {
     }
 
     @Override
+    public void add_ir_to_library(IR cur) {
+        extract_struct(cur);
+        cur=deep_copy(cur);
+        add_ir_to_library_no_deepcopy(cur);
+    }
+
+    @Override
     public void add_ir_to_library_no_deepcopy(IR cur) {
         if (cur.left != null) {
             add_ir_to_library_no_deepcopy(cur.left);

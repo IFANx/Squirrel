@@ -27,7 +27,7 @@ public abstract class Mutator {
         return null;
     }
 
-    List<IR> mutateAll(List<IR> vIrCollector) {
+    public List<IR> mutateAll(List<IR> vIrCollector) {
         return null;
     }
 
@@ -59,7 +59,7 @@ public abstract class Mutator {
         return null;
     }
 
-    void init(String fTestcase, String fCommonString, String file2d, String file1d, String fGenType) {
+    public void init(String fTestcase, String fCommonString, String file2d, String file1d, String fGenType) {
 
     }
 
@@ -75,7 +75,7 @@ public abstract class Mutator {
 
     }
 
-    void initDataLibrary(String filename) {
+    public void initDataLibrary(String filename) {
 
     }
 
@@ -126,7 +126,7 @@ public abstract class Mutator {
         return null;
     }
 
-    void extract_struct(IR ir) {
+    public void extract_struct(IR ir) {
     }
 
     void extract_struct2(IR ir) {
@@ -190,7 +190,7 @@ public abstract class Mutator {
         return false;
     }
 
-    boolean validate(IR root) //done
+    public boolean validate(IR root) //done
     {
         return false;
     }
@@ -224,6 +224,10 @@ public abstract class Mutator {
         return 0;
     }
 
+
+    public void add_ir_to_library(IR cur){
+
+    }
 
     void add_ir_to_library_no_deepcopy(IR ir)//DONE
     {
