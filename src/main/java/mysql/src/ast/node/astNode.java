@@ -83,6 +83,7 @@ public interface astNode {
                 default:
                     throw new AssertionError();
             }
+            vIrCollector.add(res);
             return res;
         }
 
@@ -173,7 +174,7 @@ public interface astNode {
                 default:
                     throw new AssertionError();
             }
-
+            vIrCollector.add(res);
             return res;
         }
 
@@ -268,6 +269,7 @@ public interface astNode {
                 default:
                     throw new AssertionError();
             }
+            vIrCollector.add(res);
             return res;
         }
 
@@ -340,6 +342,7 @@ public interface astNode {
                 default:
                     throw new AssertionError();
             }
+            vIrCollector.add(res);
             return res;
         }
 
@@ -391,6 +394,7 @@ public interface astNode {
             IR tmp2 = this.alter_action_.translate(vIrCollector);
 
             res = new IR(kAlterStmt, new IROperator("ALTER TABLE", "", ""), tmp1, tmp2);
+            vIrCollector.add(res);
             return res;
         }
 
@@ -431,6 +435,7 @@ public interface astNode {
                 default:
                     throw new AssertionError();
             }
+            vIrCollector.add(res);
             return res;
         }
 
@@ -481,6 +486,7 @@ public interface astNode {
                 default:
                     throw new AssertionError();
             }
+            vIrCollector.add(res);
             return res;
         }
 
@@ -587,6 +593,7 @@ public interface astNode {
                 default:
                     throw new AssertionError();
             }
+            vIrCollector.add(res);
             return res;
         }
 
@@ -690,7 +697,7 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            IR res = null;
+            IR res;
             switch (this.caseIdx) {
                 case 0:
                     res = new IR(kCombineClause, new IROperator("UNION", "", ""), null, null);
@@ -704,6 +711,7 @@ public interface astNode {
                 default:
                     throw new AssertionError();
             }
+            vIrCollector.add(res);
             return res;
         }
 
@@ -729,157 +737,255 @@ public interface astNode {
     }
 
     class OptFromClause extends Node {
-
-
         FromClause from_clause_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.from_clause_ != null);
+                    res = new IR(kOptFromClause, new IROperator("", "", ""), null, null);
+                    break;
+                case 1:
+                    res = new IR(kOptFromClause, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                    this.from_clause_ = new FromClause();
+                    this.from_clause_.generate();
+                    break;
+                case 1:
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.from_clause_ = null;
         }
     }
 
     class SelectTarget extends Node {
-
-
         ExprList expr_list_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            assert (this.expr_list_ != null);
+            IR tmp1 = this.expr_list_.translate(vIrCollector);
+            res = new IR(kSelectTarget, new IROperator("", "", ""), tmp1);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = 0;
+            this.expr_list_ = new ExprList();
+            this.expr_list_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.expr_list_ = null;
         }
     }
 
     class OptWindowClause extends Node {
-
-
         WindowClause window_clause_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.window_clause_ != null);
+                    IR tmp1 = this.window_clause_.translate(vIrCollector);
+                    res = new IR(kOptWindowClause, new IROperator("", "", ""), tmp1);
+                    break;
+                case 1:
+                    res = new IR(kOptWindowClause, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                    this.window_clause_ = new WindowClause();
+                    this.window_clause_.generate();
+                    break;
+                case 1:
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.window_clause_ = null;
         }
     }
 
     class WindowClause extends Node {
-
-
         WindowDefList window_def_list_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+
+            assert (this.window_def_list_ != null);
+            IR tmp1 = this.window_def_list_.translate(vIrCollector);
+            res = new IR(kWindowClause, new IROperator("WINDOW", "", ""), tmp1);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.window_def_list_ = new WindowDefList();
+            this.window_def_list_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.window_def_list_ = null;
         }
     }
 
     class WindowDefList extends Node {
-
-
         WindowDef window_def_;
         WindowDefList window_def_list_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.window_def_ != null);
+                    tmp1 = this.window_def_.translate(vIrCollector);
+                    res = new IR(kWindowDef, new IROperator("", "", ""), tmp1);
+                    break;
+                case 1:
+                    assert (this.window_def_ != null);
+                    tmp1 = this.window_def_.translate(vIrCollector);
+                    assert (this.window_def_list_ != null);
+                    IR tmp2 = this.window_def_list_.translate(vIrCollector);
+                    res = new IR(kWindowDefList, new IROperator("", "", ""), tmp1, tmp2);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 200;
+            switch (this.caseIdx) {
+                case 0:
+                    this.window_def_ = new WindowDef();
+                    this.window_def_.generate();
+                    break;
+                case 1:
+                    this.window_def_ = new WindowDef();
+                    this.window_def_.generate();
+                    this.window_def_list_ = new WindowDefList();
+                    this.window_def_list_.generate();
+                    break;
+                default:
+                    this.caseIdx = 0;
+                    this.window_def_ = new WindowDef();
+                    this.window_def_.generate();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.window_def_ = null;
+            this.window_def_list_ = null;
         }
     }
 
     class WindowDef extends Node {
-
-
         Window window_;
         WindowName window_name_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            assert (this.window_ != null);
+            IR tmp1 = this.window_.translate(vIrCollector);
+            assert (this.window_name_ != null);
+            IR tmp2 = this.window_name_.translate(vIrCollector);
+            res = new IR(kWindowDef, new IROperator("", "AS(", ")"), tmp1, tmp2);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.window_ = new Window();
+            this.window_.generate();
+            this.window_name_ = new WindowName();
+            this.window_name_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.window_ = null;
+            this.window_name_ = null;
         }
     }
 
     class WindowName extends Node {
-
-
         Identifier identifier_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            assert (this.identifier_ != null);
+            IR tmp1 = this.identifier_.translate(vIrCollector);
+            res = new IR(kWindowName, new IROperator("", "", ""), tmp1);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.identifier_ = new Identifier();
+            this.identifier_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.identifier_ = null;
         }
     }
 
     class Window extends Node {
-
-
         OptExistWindowName opt_exist_window_name_;
         OptFrameClause opt_frame_clause_;
         OptPartition opt_partition_;
@@ -887,75 +993,196 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            assert (this.opt_exist_window_name_ != null);
+            IR tmp1 = this.opt_exist_window_name_.translate(vIrCollector);
+            assert (this.opt_partition_ != null);
+            IR tmp2 = this.opt_partition_.translate(vIrCollector);
+            assert (this.opt_order_clause_ != null);
+            IR tmp3 = this.opt_order_clause_.translate(vIrCollector);
+            assert (this.opt_frame_clause_ != null);
+            IR tmp4 = this.opt_frame_clause_.translate(vIrCollector);
+            IR tmp5 = new IR(kUnknown, new IROperator("", "", ""), tmp1, tmp2);
+            vIrCollector.add(tmp5);
+            IR tmp6 = new IR(kUnknown, new IROperator("", "", ""), tmp5, tmp3);
+            vIrCollector.add(tmp6);
+            res = new IR(kWindow, new IROperator("", "", ""), tmp6, tmp4);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.opt_exist_window_name_ = new OptExistWindowName();
+            this.opt_exist_window_name_.generate();
+            this.opt_partition_ = new OptPartition();
+            this.opt_partition_.generate();
+            this.opt_order_clause_ = new OptOrderClause();
+            this.opt_order_clause_.generate();
+            this.opt_frame_clause_ = new OptFrameClause();
+            this.opt_frame_clause_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.opt_exist_window_name_ = null;
+            this.opt_partition_ = null;
+            this.opt_order_clause_ = null;
+            this.opt_frame_clause_ = null;
         }
     }
 
     class OptPartition extends Node {
-
-
         ExprList expr_list_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.expr_list_ != null);
+                    IR tmp1 = this.expr_list_.translate(vIrCollector);
+                    res = new IR(kOptPartition, new IROperator("PARTITION BY", "", ""), tmp1);
+                    break;
+                case 1:
+                    res = new IR(kOptPartition, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                    this.expr_list_ = new ExprList();
+                    this.expr_list_.generate();
+                    break;
+                case 1:
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.expr_list_ = null;
         }
     }
 
     class OptFrameClause extends Node {
-
-
         FrameBoundStart frame_bound_start_;
         RangeOrRows range_or_rows_;
         FrameBoundEnd frame_bound_end_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            IR tmp2;
+            IR tmp3;
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.range_or_rows_ != null);
+                    tmp1 = this.range_or_rows_.translate(vIrCollector);
+                    assert (this.frame_bound_start_ != null);
+                    tmp2 = this.frame_bound_start_.translate(vIrCollector);
+                    res = new IR(kOptFrameClause, new IROperator("", "", ""), tmp1, tmp2);
+                    break;
+                case 1:
+                    assert (this.range_or_rows_ != null);
+                    tmp1 = this.range_or_rows_.translate(vIrCollector);
+                    assert (this.frame_bound_start_ != null);
+                    tmp2 = this.frame_bound_start_.translate(vIrCollector);
+                    assert (this.frame_bound_end_ != null);
+                    tmp3 = this.frame_bound_end_.translate(vIrCollector);
+                    IR tmp4 = new IR(kUnknown, new IROperator("", "BETWEEN", "AND"), tmp1, tmp2);
+                    vIrCollector.add(tmp4);
+                    res = new IR(kOptFrameClause, new IROperator("", "", ""), tmp4, tmp3);
+                    break;
+                case 2:
+                    res = new IR(kOptFrameClause, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                    this.range_or_rows_ = new RangeOrRows();
+                    this.range_or_rows_.generate();
+                    this.frame_bound_start_ = new FrameBoundStart();
+                    this.frame_bound_start_.generate();
+                    break;
+                case 1:
+                    this.range_or_rows_ = new RangeOrRows();
+                    this.range_or_rows_.generate();
+                    this.frame_bound_start_ = new FrameBoundStart();
+                    this.frame_bound_start_.generate();
+                    this.frame_bound_end_ = new FrameBoundEnd();
+                    this.frame_bound_end_.generate();
+                    break;
+                case 2:
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.frame_bound_start_ = null;
+            this.range_or_rows_ = null;
+            this.frame_bound_end_ = null;
         }
     }
 
     class RangeOrRows extends Node {
-
-
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                    res = new IR(kRangeOrRows, new IROperator("RANGE", "", ""), null, null);
+                    break;
+                case 1:
+                    res = new IR(kRangeOrRows, new IROperator("ROWS", "", ""), null, null);
+                    break;
+                case 2:
+                    res = new IR(kRangeOrRows, new IROperator("GROUPS", "", ""), null, null);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            switch (this.caseIdx) {
+                case 0:
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
