@@ -1192,92 +1192,188 @@ public interface astNode {
     }
 
     class FrameBoundStart extends Node {
-
-
         FrameBound frame_bound_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.frame_bound_ != null);
+                    IR tmp1 = this.frame_bound_.translate(vIrCollector);
+                    res = new IR(kFrameBoundStart, new IROperator("", "", ""), tmp1);
+                    break;
+                case 1:
+                    res = new IR(kFrameBoundStart, new IROperator("UNBOUNDED PRECEDING", "", ""), null, null);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                    this.frame_bound_ = new FrameBound();
+                    this.frame_bound_.generate();
+                    break;
+                case 1:
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.frame_bound_ = null;
         }
     }
 
     class FrameBoundEnd extends Node {
-
-
         FrameBound frame_bound_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.frame_bound_ != null);
+                    IR tmp1 = this.frame_bound_.translate(vIrCollector);
+                    res = new IR(kFrameBoundEnd, new IROperator("", "", ""), tmp1);
+                    break;
+                case 1:
+                    res = new IR(kFrameBoundEnd, new IROperator("UNBOUNDED FOLLOWING", "", ""), null, null);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                    this.frame_bound_ = new FrameBound();
+                    this.frame_bound_.generate();
+                    break;
+                case 1:
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.frame_bound_ = null;
         }
     }
 
     class FrameBound extends Node {
-
-
         Expr expr_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.expr_ != null);
+                    tmp1 = this.expr_.translate(vIrCollector);
+                    res = new IR(kFrameBound, new IROperator("", "PRECEDING", ""), tmp1);
+                    break;
+                case 1:
+                    tmp1 = this.expr_.translate(vIrCollector);
+                    res = new IR(kFrameBound, new IROperator("", "FOLLOWING", ""), tmp1);
+                    break;
+                case 2:
+                    res = new IR(kFrameBound, new IROperator("", "CURRENT ROW", ""), null, null);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                    this.expr_ = new Expr();
+                    this.expr_.generate();
+                    break;
+                case 1:
+                    this.expr_ = new Expr();
+                    this.expr_.generate();
+                    break;
+                case 2:
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.expr_ = null;
         }
     }
 
     class OptExistWindowName extends Node {
-
-
         Identifier identifier_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.identifier_ != null);
+                    tmp1 = this.identifier_.translate(vIrCollector);
+                    res = new IR(kOptExistWindowName, new IROperator("", "", ""), tmp1);
+                    break;
+                case 1:
+                    res = new IR(kOptExistWindowName, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                    this.identifier_ = new Identifier();
+                    this.identifier_.generate();
+                    break;
+                case 1:
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.identifier_ = null;
         }
     }
 
     class OptGroupClause extends Node {
-
-
         ExprList expr_list_;
         OptHavingClause opt_having_clause_;
 
