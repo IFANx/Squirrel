@@ -9,6 +9,7 @@ import java.util.Random;
 import static mysql.src.ast.IRType.*;
 import static mysql.src.ast.IRType.kStmt;
 
+//TODO：IR method implement
 public interface astNode {
     Random random = new Random();
 
@@ -46,76 +47,76 @@ public interface astNode {
 
         @Override
         public void deepDelete() {
-            if (this.stmtList != null)
+            this.stmtList = null;
+        }
+
+        class StmtList extends Node {
+            Random rand = new Random();
+
+            Stmt stmt;
+
+            StmtList stmtList;
+
+            @Override
+            public IR translate(List<IR> vIrCollector) {
+                IR res;
+                IR tmp1 = null;
+                IR tmp2 = null;
+                switch (this.caseIdx) {
+                    case 0:
+
+                        if (this.stmt != null) {
+                            tmp1 = this.stmt.translate(vIrCollector);
+                        }
+                        if (this.stmtList != null) {
+                            tmp2 = this.stmtList.translate(vIrCollector);
+                        }
+                        res = new IR(kStmtlist, new IROperator("", ";", ""), tmp1, tmp2);
+                        break;
+                    case 1:
+                        if (this.stmt != null) {
+                            tmp1 = this.stmt.translate(vIrCollector);
+                        }
+                        res = new IR(kStmtlist, new IROperator("", ";", ""), tmp1);
+                        break;
+                    default:
+                        throw new AssertionError();
+                }
+                return res;
+            }
+
+            @Override
+            public void generate() {
+                this.caseIdx = rand.nextInt() % 200;
+                switch (this.caseIdx) {
+                    case 0:
+                        this.stmt = new Stmt();
+                        this.stmt.generate();
+                        this.stmtList = new StmtList();
+                        this.stmtList.generate();
+                        break;
+                    case 1:
+                        this.stmt = new Stmt();
+                        this.stmt.generate();
+                        break;
+                    default:
+                        int tmpCaseIdx = rand.nextInt() % 1;
+                        switch (tmpCaseIdx) {
+                            case 0:
+                                this.stmt = new Stmt();
+                                this.stmt.generate();
+                                this.caseIdx = 1;
+                                break;
+                        }
+                }
+            }
+
+            //C++的delete方法，释放内存
+            @Override
+            public void deepDelete() {
                 this.stmtList = null;
-        }
-    }
-
-    class StmtList extends Node {
-        Random rand = new Random();
-
-        Stmt stmt;
-
-        StmtList stmtList;
-
-        @Override
-        public IR translate(List<IR> vIrCollector) {
-            IR res;
-            IR tmp1 = null;
-            IR tmp2 = null;
-            switch (this.caseIdx) {
-//            case CASE0;
-                case 0:
-
-                    if (this.stmt != null) {
-                        tmp1 = this.stmt.translate(vIrCollector);
-                    }
-                    if (this.stmtList != null) {
-                        tmp2 = this.stmtList.translate(vIrCollector);
-                    }
-                    res = new IR(kStmtlist, new IROperator("", ";", ""), tmp1, tmp2);
-                    break;
-                case 1:
-                    if (this.stmt != null) {
-                        tmp1 = this.stmt.translate(vIrCollector);
-                    }
-                    res = new IR(kStmtlist, new IROperator("", ";", ""), tmp1);
-                    break;
-                default:
-                    throw new AssertionError();
+                this.stmt = null;
             }
-            return res;
-        }
-
-        @Override
-        public void generate() {
-            this.caseIdx = rand.nextInt() % 200;
-            switch (this.caseIdx) {
-                case 0:
-                    this.stmt = new Stmt();
-                    this.stmt.generate();
-                    this.stmtList = new StmtList();
-                    this.stmtList.generate();
-                    break;
-                case 1:
-                    this.stmt = new Stmt();
-                    this.stmt.generate();
-                    break;
-                default:
-                    int tmpCaseIdx = rand.nextInt() % 1;
-                    switch (tmpCaseIdx) {
-                        case 0:
-                            this.stmt = new Stmt();
-                            this.stmt.generate();
-                            this.caseIdx = 1;
-                            break;
-                    }
-            }
-        }
-
-        //C++的delete方法，释放内存
-        @Override
-        public void deepDelete() {
         }
     }
 
@@ -223,7 +224,12 @@ public interface astNode {
 
         @Override
         public void deepDelete() {
-
+            this.select_stmt_ = null;
+            this.drop_stmt_ = null;
+            this.create_stmt_ = null;
+            this.alter_stmt_ = null;
+            this.insert_stmt_ = null;
+            this.update_stmt_ = null;
         }
 
     }
@@ -236,17 +242,67 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.create_table_stmt_ != null);
+                    tmp1 = this.create_table_stmt_.translate(vIrCollector);
+                    res = new IR(kCreateStmt, new IROperator("", "", ""), tmp1);
+                    break;
+                case 1:
+                    assert (this.create_index_stmt_ != null);
+                    tmp1 = this.create_index_stmt_.translate(vIrCollector);
+                    res = new IR(kCreateStmt, new IROperator("", "", ""), tmp1);
+                    break;
+                case 2:
+                    assert (this.create_trigger_stmt_ != null);
+                    tmp1 = this.create_trigger_stmt_.translate(vIrCollector);
+                    res = new IR(kCreateStmt, new IROperator("", "", ""), tmp1);
+                    break;
+                case 3:
+                    assert (this.create_view_stmt_ != null);
+                    tmp1 = this.create_view_stmt_.translate(vIrCollector);
+                    res = new IR(kCreateStmt, new IROperator("", "", ""), tmp1);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            return res;
         }
 
         @Override
         public void generate() {
+            this.caseIdx = random.nextInt() % 4;
 
+            switch (this.caseIdx) {
+                case 0:
+                    this.create_table_stmt_ = new CreateTableStmt();
+                    this.create_table_stmt_.generate();
+                    break;
+                case 1:
+                    this.create_index_stmt_ = new CreateIndexStmt();
+                    this.create_index_stmt_.generate();
+                    break;
+                case 2:
+                    this.create_trigger_stmt_ = new CreateTriggerStmt();
+                    this.create_trigger_stmt_.generate();
+                    break;
+                case 3:
+                    this.create_view_stmt_ = new CreateViewStmt();
+                    this.create_view_stmt_.generate();
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.create_index_stmt_ = null;
+            this.create_table_stmt_ = null;
+            this.create_trigger_stmt_ = null;
+            this.create_view_stmt_ = null;
         }
     }
 
