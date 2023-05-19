@@ -2904,23 +2904,71 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            IR tmp2;
+            IR tmp3;
+            IR tmp4;
+            IR tmp5;
+            IR tmp6;
+            IR tmp7;
+            IR tmp8;
+            IR tmp9;
+            IR tmp10;
+            assert (this.opt_index_keyword_ != null);
+            tmp1 = this.opt_index_keyword_.translate(vIrCollector);
+            assert (this.table_name_1_ != null);
+            tmp2 = this.table_name_1_.translate(vIrCollector);
+            assert (this.table_name_2_ != null);
+            tmp3 = this.table_name_2_.translate(vIrCollector);
+            assert (this.indexed_column_list_ != null);
+            tmp4 = this.indexed_column_list_.translate(vIrCollector);
+            assert (this.opt_index_option_ != null);
+            tmp5 = this.opt_index_option_.translate(vIrCollector);
+            assert (this.opt_extra_option_ != null);
+            tmp6 = this.opt_extra_option_.translate(vIrCollector);
+
+            tmp7 = new IR(kUnknown, new IROperator("CREATE", "INDEX", "ON"), tmp1, tmp2);
+            vIrCollector.add(tmp7);
+            tmp8 = new IR(kUnknown, new IROperator("", "", "("), tmp7, tmp3);
+            vIrCollector.add(tmp8);
+            tmp9 = new IR(kUnknown, new IROperator("", "", ")"), tmp8, tmp4);
+            vIrCollector.add(tmp9);
+            tmp10 = new IR(kUnknown, new IROperator("", "", "AS"), tmp9, tmp5);
+            vIrCollector.add(tmp10);
+            res = new IR(kCreateIndexStmt, new IROperator("", "", ""), tmp10, tmp6);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.table_name_1_ = new TableName();
+            this.table_name_1_.generate();
+            this.table_name_2_ = new TableName();
+            this.table_name_2_.generate();
+            this.opt_index_option_ = new OptIndexOption();
+            this.opt_index_option_.generate();
+            this.opt_index_keyword_ = new OptIndexKeyword();
+            this.opt_index_keyword_.generate();
+            this.indexed_column_list_ = new IndexedColumnList();
+            this.indexed_column_list_.generate();
+            this.opt_extra_option_ = new OptExtraOption();
+            this.opt_extra_option_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.table_name_1_ = null;
+            this.table_name_2_ = null;
+            this.opt_index_option_ = null;
+            this.opt_index_keyword_ = null;
+            this.indexed_column_list_ = null;
+            this.opt_extra_option_ = null;
         }
     }
 
     class CreateTriggerStmt extends Node {
-
-
         TriggerActionTime trigger_action_time_;
         TriggerName trigger_name_;
         TableName table_name_;
@@ -2929,23 +2977,62 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            IR tmp2;
+            IR tmp3;
+            IR tmp4;
+            IR tmp5;
+            IR tmp6;
+            IR tmp7;
+            IR tmp8;
+            assert (this.trigger_name_ != null);
+            tmp1 = this.trigger_name_.translate(vIrCollector);
+            assert (this.trigger_action_time_ != null);
+            tmp2 = this.trigger_action_time_.translate(vIrCollector);
+            assert (this.trigger_events_ != null);
+            tmp3 = this.trigger_events_.translate(vIrCollector);
+            assert (this.table_name_ != null);
+            tmp4 = this.table_name_.translate(vIrCollector);
+            assert (this.trigger_body_ != null);
+            tmp5 = this.trigger_body_.translate(vIrCollector);
+
+            tmp6 = new IR(kUnknown, new IROperator("CREATE TRIGGER", "", ""), tmp1, tmp2);
+            vIrCollector.add(tmp6);
+            tmp7 = new IR(kUnknown, new IROperator("", "", "ON"), tmp6, tmp3);
+            vIrCollector.add(tmp7);
+            tmp8 = new IR(kUnknown, new IROperator("", "", "FOR"), tmp7, tmp4);
+            vIrCollector.add(tmp8);
+            res = new IR(kCreateTriggerStmt, new IROperator("", "EACH ROW", ""), tmp8, tmp5);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.trigger_action_time_ = new TriggerActionTime();
+            this.trigger_action_time_.generate();
+            this.trigger_name_ = new TriggerName();
+            this.trigger_name_.generate();
+            this.table_name_ = new TableName();
+            this.table_name_.generate();
+            this.trigger_events_ = new TriggerEvents();
+            this.trigger_events_.generate();
+            this.trigger_body_ = new TriggerBody();
+            this.trigger_body_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.trigger_action_time_ = null;
+            this.trigger_name_ = null;
+            this.table_name_ = null;
+            this.trigger_events_ = null;
+            this.trigger_body_ = null;
         }
     }
 
     class CreateViewStmt extends Node {
-
-
         OptViewAlgorithm opt_view_algorithm_;
         OptCheckOption opt_check_option_;
         OptSqlSecurity opt_sql_security_;
@@ -2955,96 +3042,326 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res = null;
+            IR tmp1;
+            IR tmp2;
+            IR tmp3;
+            IR tmp4;
+            IR tmp5;
+            IR tmp6;
+            IR tmp7;
+            IR tmp8;
+            IR tmp9;
+            IR tmp10;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.opt_view_algorithm_ != null);
+                    tmp1 = this.opt_view_algorithm_.translate(vIrCollector);
+                    assert (this.opt_sql_security_ != null);
+                    tmp2 = this.opt_sql_security_.translate(vIrCollector);
+                    assert (this.view_name_ != null);
+                    tmp3 = this.view_name_.translate(vIrCollector);
+                    assert (this.opt_column_name_list_p_ != null);
+                    tmp4 = this.opt_column_name_list_p_.translate(vIrCollector);
+                    assert (this.select_stmt_ != null);
+                    tmp5 = this.select_stmt_.translate(vIrCollector);
+                    assert (this.opt_check_option_ != null);
+                    tmp6 = this.opt_check_option_.translate(vIrCollector);
+
+                    tmp7 = new IR(kUnknown, new IROperator("CREATE", "VIEW", ""), tmp1, tmp2);
+                    vIrCollector.add(tmp7);
+                    tmp8 = new IR(kUnknown, new IROperator("", "", ""), tmp7, tmp3);
+                    vIrCollector.add(tmp8);
+                    tmp9 = new IR(kUnknown, new IROperator("", "", "AS"), tmp8, tmp4);
+                    vIrCollector.add(tmp9);
+                    tmp10 = new IR(kUnknown, new IROperator("", "", ""), tmp9, tmp5);
+                    vIrCollector.add(tmp10);
+                    res = new IR(kCreateViewStmt, new IROperator("", "", ""), tmp10, tmp6);
+                    break;
+                case 1:
+                    assert (this.opt_view_algorithm_ != null);
+                    tmp1 = this.opt_view_algorithm_.translate(vIrCollector);
+                    assert (this.opt_sql_security_ != null);
+                    tmp2 = this.opt_sql_security_.translate(vIrCollector);
+                    assert (this.view_name_ != null);
+                    tmp3 = this.view_name_.translate(vIrCollector);
+                    assert (this.opt_column_name_list_p_ != null);
+                    tmp4 = this.opt_column_name_list_p_.translate(vIrCollector);
+                    assert (this.select_stmt_ != null);
+                    tmp5 = this.select_stmt_.translate(vIrCollector);
+                    assert (this.opt_check_option_ != null);
+                    tmp6 = this.opt_check_option_.translate(vIrCollector);
+
+                    tmp7 = new IR(kUnknown, new IROperator("CREATE OR REPLACE", "VIEW", ""), tmp1, tmp2);
+                    vIrCollector.add(tmp7);
+                    tmp8 = new IR(kUnknown, new IROperator("", "", ""), tmp7, tmp3);
+                    vIrCollector.add(tmp8);
+                    tmp9 = new IR(kUnknown, new IROperator("", "", "AS"), tmp8, tmp4);
+                    vIrCollector.add(tmp9);
+                    tmp10 = new IR(kUnknown, new IROperator("", "", ""), tmp9, tmp5);
+                    vIrCollector.add(tmp10);
+                    res = new IR(kCreateViewStmt, new IROperator("", "", ""), tmp10, tmp6);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                case 1:
+                    this.opt_view_algorithm_ = new OptViewAlgorithm();
+                    this.opt_view_algorithm_.generate();
+                    this.opt_sql_security_ = new OptSqlSecurity();
+                    this.opt_sql_security_.generate();
+                    this.view_name_ = new ViewName();
+                    this.view_name_.generate();
+                    this.opt_column_name_list_p_ = new OptColumnNameListP();
+                    this.opt_column_name_list_p_.generate();
+                    this.select_stmt_ = new SelectStmt();
+                    this.select_stmt_.generate();
+                    this.opt_check_option_ = new OptCheckOption();
+                    this.opt_check_option_.generate();
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.opt_view_algorithm_ = null;
+            this.opt_sql_security_ = null;
+            this.view_name_ = null;
+            this.opt_column_name_list_p_ = null;
+            this.select_stmt_ = null;
+            this.opt_check_option_ = null;
         }
     }
 
     class OptTableOptionList extends Node {
-
-
         TableOptionList table_option_list_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.table_option_list_ != null);
+                    IR tmp1 = this.table_option_list_.translate(vIrCollector);
+                    res = new IR(kOptTableOptionList, new IROperator("", "", ""), tmp1);
+                    break;
+                case 1:
+                    res = new IR(kOptTableOptionList, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                    this.table_option_list_ = new TableOptionList();
+                    this.table_option_list_.generate();
+                    break;
+                case 1:
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.table_option_list_ = null;
         }
     }
 
     class TableOptionList extends Node {
-
-
         TableOptionList table_option_list_;
         OptOpComma opt_op_comma_;
         TableOption table_option_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            IR tmp2;
+            IR tmp3;
+            IR tmp4;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.table_option_ != null);
+                    tmp1 = this.table_option_.translate(vIrCollector);
+                    res = new IR(kOptTableOptionList, new IROperator("", "", ""), tmp1);
+                    break;
+                case 1:
+                    assert (this.table_option_ != null);
+                    tmp1 = this.table_option_.translate(vIrCollector);
+                    assert (this.opt_op_comma_ != null);
+                    tmp2 = this.opt_op_comma_.translate(vIrCollector);
+                    assert (this.table_option_list_ != null);
+                    tmp3 = this.table_option_list_.translate(vIrCollector);
+                    tmp4 = new IR(kUnknown, new IROperator("", "", ""), tmp1, tmp2);
+                    vIrCollector.add(tmp4);
+                    res = new IR(kOptTableOptionList, new IROperator("", "", ""), tmp4, tmp3);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 200;
+            switch (this.caseIdx) {
+                case 0:
+                    this.table_option_ = new TableOption();
+                    this.table_option_.generate();
+                    break;
+                case 1:
+                    this.table_option_ = new TableOption();
+                    this.table_option_.generate();
+                    this.opt_op_comma_ = new OptOpComma();
+                    this.opt_op_comma_.generate();
+                    this.table_option_list_ = new TableOptionList();
+                    this.table_option_list_.generate();
+                    break;
+                default:
+                    this.caseIdx = 0;
+                    this.table_option_ = new TableOption();
+                    this.table_option_.generate();
+                    break;
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.table_option_list_ = null;
+            this.opt_op_comma_ = null;
+            this.table_option_ = null;
         }
     }
 
     class TableOption extends Node {
-
-
         OptOpEqual opt_op_equal_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.opt_op_equal_ != null);
+                    tmp1 = this.opt_op_equal_.translate(vIrCollector);
+                    res = new IR(kTableOption, new IROperator("INSERT_METHOD", "NO", ""), tmp1);
+                    break;
+                case 1:
+                    assert (this.opt_op_equal_ != null);
+                    tmp1 = this.opt_op_equal_.translate(vIrCollector);
+                    res = new IR(kTableOption, new IROperator("INSERT_METHOD", "FIRST", ""), tmp1);
+                    break;
+                case 2:
+                    assert (this.opt_op_equal_ != null);
+                    tmp1 = this.opt_op_equal_.translate(vIrCollector);
+                    res = new IR(kTableOption, new IROperator("INSERT_METHOD", "LAST", ""), tmp1);
+                    break;
+                case 3:
+                    assert (this.opt_op_equal_ != null);
+                    tmp1 = this.opt_op_equal_.translate(vIrCollector);
+                    res = new IR(kTableOption, new IROperator("ROW_FORMAT", "DEFAULT", ""), tmp1);
+                    break;
+                case 4:
+                    assert (this.opt_op_equal_ != null);
+                    tmp1 = this.opt_op_equal_.translate(vIrCollector);
+                    res = new IR(kTableOption, new IROperator("ROW_FORMAT", "DYNAMIC", ""), tmp1);
+                    break;
+                case 5:
+                    assert (this.opt_op_equal_ != null);
+                    tmp1 = this.opt_op_equal_.translate(vIrCollector);
+                    res = new IR(kTableOption, new IROperator("ROW_FORMAT", "FIXED", ""), tmp1);
+                    break;
+                case 6:
+                    assert (this.opt_op_equal_ != null);
+                    tmp1 = this.opt_op_equal_.translate(vIrCollector);
+                    res = new IR(kTableOption, new IROperator("ROW_FORMAT", "COMPRESSED", ""), tmp1);
+                    break;
+                case 7:
+                    assert (this.opt_op_equal_ != null);
+                    tmp1 = this.opt_op_equal_.translate(vIrCollector);
+                    res = new IR(kTableOption, new IROperator("ROW_FORMAT", "REDUNDANT", ""), tmp1);
+                    break;
+                case 8:
+                    assert (this.opt_op_equal_ != null);
+                    tmp1 = this.opt_op_equal_.translate(vIrCollector);
+                    res = new IR(kTableOption, new IROperator("ROW_FORMAT", "COMPACT", ""), tmp1);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 9;
+            switch (this.caseIdx) {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+                    this.opt_op_equal_ = new OptOpEqual();
+                    this.opt_op_equal_.generate();
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.opt_op_equal_ = null;
         }
     }
 
     class OptOpComma extends Node {
-
-
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    res = new IR(kOptOpComma, new IROperator(",", "", ""), null, null);
+                    break;
+                case 1:
+                    res = new IR(kOptOpComma, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
         }
 
         @Override
@@ -3054,16 +3371,29 @@ public interface astNode {
     }
 
     class OptIgnoreOrReplace extends Node {
-
-
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    res = new IR(kOptIgnoreOrReplace, new IROperator("IGNORE", "", ""), null, null);
+                    break;
+                case 1:
+                    res = new IR(kOptIgnoreOrReplace, new IROperator("REPLACE", "", ""), null, null);
+                    break;
+                case 2:
+                    res = new IR(kOptIgnoreOrReplace, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 3;
         }
 
         @Override
@@ -3073,16 +3403,32 @@ public interface astNode {
     }
 
     class OptViewAlgorithm extends Node {
-
-
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    res = new IR(kOptViewAlgorithm, new IROperator("ALGORITHM = UNDEFINED", "", ""), null, null);
+                    break;
+                case 1:
+                    res = new IR(kOptViewAlgorithm, new IROperator("ALGORITHM = MERGE", "", ""), null, null);
+                    break;
+                case 2:
+                    res = new IR(kOptViewAlgorithm, new IROperator("ALGORITHM = TEMPTABLE", "", ""), null, null);
+                    break;
+                case 3:
+                    res = new IR(kOptViewAlgorithm, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 4;
         }
 
         @Override
@@ -3092,16 +3438,29 @@ public interface astNode {
     }
 
     class OptSqlSecurity extends Node {
-
-
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    res = new IR(kOptSqlSecurity, new IROperator("SQL SECURITY DEFINER", "", ""), null, null);
+                    break;
+                case 1:
+                    res = new IR(kOptSqlSecurity, new IROperator("SQL SECURITY INVOKER", "", ""), null, null);
+                    break;
+                case 2:
+                    res = new IR(kOptSqlSecurity, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 3;
         }
 
         @Override
@@ -3111,16 +3470,29 @@ public interface astNode {
     }
 
     class OptIndexOption extends Node {
-
-
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    res = new IR(kOptIndexOption, new IROperator("USING BTREE", "", ""), null, null);
+                    break;
+                case 1:
+                    res = new IR(kOptIndexOption, new IROperator("USING HASH", "", ""), null, null);
+                    break;
+                case 2:
+                    res = new IR(kOptIndexOption, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 3;
         }
 
         @Override
@@ -3130,80 +3502,172 @@ public interface astNode {
     }
 
     class OptExtraOption extends Node {
-
-
         LockOption lock_option_;
         IndexAlgorithmOption index_algorithm_option_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.index_algorithm_option_ != null);
+                    tmp1 = this.index_algorithm_option_.translate(vIrCollector);
+                    res = new IR(kOptExtraOption, new IROperator("", "", ""), tmp1);
+                    break;
+                case 1:
+                    assert (this.lock_option_ != null);
+                    tmp1 = this.lock_option_.translate(vIrCollector);
+                    res = new IR(kOptExtraOption, new IROperator("", "", ""), tmp1);
+                    break;
+                case 2:
+                    res = new IR(kOptExtraOption, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 3;
+            switch (this.caseIdx) {
+                case 0:
+                    this.index_algorithm_option_ = new IndexAlgorithmOption();
+                    this.index_algorithm_option_.generate();
+                    break;
+                case 1:
+                    this.lock_option_ = new LockOption();
+                    this.lock_option_.generate();
+                    break;
+                case 2:
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.lock_option_ = null;
+            this.index_algorithm_option_ = null;
         }
     }
 
     class IndexAlgorithmOption extends Node {
-
-
         OptOpEqual opt_op_equal_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.opt_op_equal_ != null);
+                    tmp1 = this.opt_op_equal_.translate(vIrCollector);
+                    res = new IR(kIndexAlgorithmOption, new IROperator("ALGORITHM", "DEFAULT", ""), tmp1);
+                    break;
+                case 1:
+                    assert (this.opt_op_equal_ != null);
+                    tmp1 = this.opt_op_equal_.translate(vIrCollector);
+                    res = new IR(kIndexAlgorithmOption, new IROperator("ALGORITHM", "INPLACE", ""), tmp1);
+                    break;
+                case 2:
+                    assert (this.opt_op_equal_ != null);
+                    tmp1 = this.opt_op_equal_.translate(vIrCollector);
+                    res = new IR(kIndexAlgorithmOption, new IROperator("ALGORITHM", "COPY", ""), tmp1);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 3;
+            this.opt_op_equal_ = new OptOpEqual();
+            this.opt_op_equal_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.opt_op_equal_ = null;
         }
     }
 
     class LockOption extends Node {
-
-
         OptOpEqual opt_op_equal_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.opt_op_equal_ != null);
+                    tmp1 = this.opt_op_equal_.translate(vIrCollector);
+                    res = new IR(kLockOption, new IROperator("LOCK", "DEFAULT", ""), tmp1);
+                    break;
+                case 1:
+                    assert (this.opt_op_equal_ != null);
+                    tmp1 = this.opt_op_equal_.translate(vIrCollector);
+                    res = new IR(kLockOption, new IROperator("LOCK", "NONE", ""), tmp1);
+                    break;
+                case 2:
+                    assert (this.opt_op_equal_ != null);
+                    tmp1 = this.opt_op_equal_.translate(vIrCollector);
+                    res = new IR(kLockOption, new IROperator("LOCK", "SHARED", ""), tmp1);
+                    break;
+                case 3:
+                    assert (this.opt_op_equal_ != null);
+                    tmp1 = this.opt_op_equal_.translate(vIrCollector);
+                    res = new IR(kLockOption, new IROperator("LOCK", "EXCLUSIVE", ""), tmp1);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 4;
+            this.opt_op_equal_ = new OptOpEqual();
+            this.opt_op_equal_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.opt_op_equal_ = null;
         }
     }
 
     class OptOpEqual extends Node {
-
-
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    res = new IR(kOptOpEqual, new IROperator("=", "", ""), null, null);
+                    break;
+                case 1:
+                    res = new IR(kOptOpEqual, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
         }
 
         @Override
@@ -3213,16 +3677,29 @@ public interface astNode {
     }
 
     class TriggerEvents extends Node {
-
-
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    res = new IR(kTriggerEvents, new IROperator("DELETE", "", ""), null, null);
+                    break;
+                case 1:
+                    res = new IR(kTriggerEvents, new IROperator("INSERT", "", ""), null, null);
+                    break;
+                case 2:
+                    res = new IR(kTriggerEvents, new IROperator("UPDATE", "", ""), null, null);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 3;
         }
 
         @Override
@@ -3238,31 +3715,46 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            assert (this.identifier_ != null);
+            IR tmp1 = this.identifier_.translate(vIrCollector);
+            IR res = new IR(kTriggerName, new IROperator("", "", ""), tmp1);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.identifier_ = new Identifier();
+            this.identifier_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.identifier_ = null;
         }
     }
 
     class TriggerActionTime extends Node {
-
-
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    res = new IR(kTriggerActionTime, new IROperator("BEFORE", "", ""), null, null);
+                    break;
+                case 1:
+                    res = new IR(kTriggerActionTime, new IROperator("AFTER", "", ""), null, null);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
         }
 
         @Override
@@ -3272,30 +3764,36 @@ public interface astNode {
     }
 
     class DropIndexStmt extends Node {
-
-
         TableName table_name_;
         OptExtraOption opt_extra_option_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            assert (this.table_name_ != null);
+            IR tmp1 = this.table_name_.translate(vIrCollector);
+            assert (this.opt_extra_option_ != null);
+            IR tmp2 = this.opt_extra_option_.translate(vIrCollector);
+            IR res = new IR(kDropIndexStmt, new IROperator("DROP INDEX", "", ""), tmp1, tmp2);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.table_name_ = new TableName();
+            this.table_name_.generate();
+            this.opt_extra_option_ = new OptExtraOption();
+            this.opt_extra_option_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.table_name_ = null;
+            this.opt_extra_option_ = null;
         }
     }
 
     class DropTableStmt extends Node {
-
-
         OptTemp opt_temp_;
         TableName table_name_;
         OptRestrictOrCascade opt_restrict_or_cascade_;
@@ -3303,31 +3801,69 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            assert (this.opt_temp_ != null);
+            IR tmp1 = this.opt_temp_.translate(vIrCollector);
+            assert (this.opt_if_exist_ != null);
+            IR tmp2 = this.opt_if_exist_.translate(vIrCollector);
+            assert (this.table_name_ != null);
+            IR tmp3 = this.table_name_.translate(vIrCollector);
+            assert (this.opt_restrict_or_cascade_ != null);
+            IR tmp4 = this.opt_restrict_or_cascade_.translate(vIrCollector);
+            IR tmp5 = new IR(kUnknown, new IROperator("DROP", "TABLE", ""), tmp1, tmp2);
+            vIrCollector.add(tmp5);
+            IR tmp6 = new IR(kUnknown, new IROperator("", "", ""), tmp5, tmp3);
+            vIrCollector.add(tmp6);
+            IR res = new IR(kDropTableStmt, new IROperator("", "", ""), tmp6, tmp4);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = 0;
+            this.opt_temp_ = new OptTemp();
+            this.opt_temp_.generate();
+            this.opt_if_exist_ = new OptIfExist();
+            this.opt_if_exist_.generate();
+            this.table_name_ = new TableName();
+            this.table_name_.generate();
+            this.opt_restrict_or_cascade_ = new OptRestrictOrCascade();
+            this.opt_restrict_or_cascade_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.opt_temp_ = null;
+            this.opt_if_exist_ = null;
+            this.table_name_ = null;
+            this.opt_restrict_or_cascade_ = null;
         }
     }
 
     class OptRestrictOrCascade extends Node {
-
-
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    res = new IR(kOptRestrictOrCascade, new IROperator("RESTRICT", "", ""), null, null);
+                    break;
+                case 1:
+                    res = new IR(kOptRestrictOrCascade, new IROperator("CASCADE", "", ""), null, null);
+                    break;
+                case 2:
+                    res = new IR(kOptRestrictOrCascade, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 3;
         }
 
         @Override
@@ -3337,53 +3873,76 @@ public interface astNode {
     }
 
     class DropTriggerStmt extends Node {
-
-
         TriggerName trigger_name_;
         OptIfExist opt_if_exist_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            assert (this.opt_if_exist_ != null);
+            IR tmp1 = this.opt_if_exist_.translate(vIrCollector);
+            assert (this.trigger_name_ != null);
+            IR tmp2 = this.trigger_name_.translate(vIrCollector);
+            IR res = new IR(kOptHavingClause, new IROperator("DRIP TRIGGER", "", ""), tmp1, tmp2);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = 0;
+            this.opt_if_exist_ = new OptIfExist();
+            this.opt_if_exist_.generate();
+            this.trigger_name_ = new TriggerName();
+            this.trigger_name_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.opt_if_exist_ = null;
+            this.trigger_name_ = null;
         }
     }
 
     class DropViewStmt extends Node {
-
-
         ViewName view_name_;
         OptRestrictOrCascade opt_restrict_or_cascade_;
         OptIfExist opt_if_exist_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            assert (this.opt_if_exist_ != null);
+            IR tmp1 = this.opt_if_exist_.translate(vIrCollector);
+            assert (this.view_name_ != null);
+            IR tmp2 = this.view_name_.translate(vIrCollector);
+            assert (this.opt_restrict_or_cascade_ != null);
+            IR tmp3 = this.opt_restrict_or_cascade_.translate(vIrCollector);
+            IR tmp4 = new IR(kUnknown, new IROperator("DRIP VIEW", "", ""), tmp1, tmp2);
+            vIrCollector.add(tmp4);
+            IR res = new IR(kDropViewStmt, new IROperator("", "", ""), tmp4, tmp3);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = 0;
+            this.opt_if_exist_ = new OptIfExist();
+            this.opt_if_exist_.generate();
+            this.view_name_ = new ViewName();
+            this.view_name_.generate();
+            this.opt_restrict_or_cascade_ = new OptRestrictOrCascade();
+            this.opt_restrict_or_cascade_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.opt_if_exist_ = null;
+            this.view_name_ = null;
+            this.opt_restrict_or_cascade_ = null;
         }
     }
 
     class InsertStmt extends Node {
-
-
         InsertRest insert_rest_;
         OptAsAlias opt_as_alias_;
         TableName table_name_;
