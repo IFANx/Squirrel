@@ -3951,40 +3951,119 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            assert (this.opt_with_clause_ != null);
+            IR tmp1 = this.opt_with_clause_.translate(vIrCollector);
+            assert (this.table_name_ != null);
+            IR tmp2 = this.table_name_.translate(vIrCollector);
+            assert (this.opt_as_alias_ != null);
+            IR tmp3 = this.opt_as_alias_.translate(vIrCollector);
+            assert (this.insert_rest_ != null);
+            IR tmp4 = this.insert_rest_.translate(vIrCollector);
+            assert (this.opt_on_conflict_ != null);
+            IR tmp5 = this.opt_on_conflict_.translate(vIrCollector);
+            IR tmp6 = new IR(kUnknown, new IROperator("", "INSERT INTO", ""), tmp1, tmp2);
+            vIrCollector.add(tmp6);
+            IR tmp7 = new IR(kUnknown, new IROperator("", "", ""), tmp6, tmp3);
+            vIrCollector.add(tmp7);
+            IR tmp8 = new IR(kUnknown, new IROperator("", "", ""), tmp7, tmp4);
+            vIrCollector.add(tmp8);
+            IR res = new IR(kInsertStmt, new IROperator("", "", ""), tmp8, tmp5);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = 0;
+            this.insert_rest_ = new InsertRest();
+            this.insert_rest_.generate();
+            this.opt_as_alias_ = new OptAsAlias();
+            this.opt_as_alias_.generate();
+            this.table_name_ = new TableName();
+            this.table_name_.generate();
+            this.opt_on_conflict_ = new OptOnConflict();
+            this.opt_on_conflict_.generate();
+            this.opt_with_clause_ = new OptWithClause();
+            this.opt_with_clause_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.insert_rest_ = null;
+            this.opt_as_alias_ = null;
+            this.table_name_ = null;
+            this.opt_on_conflict_ = null;
+            this.opt_with_clause_ = null;
         }
     }
 
     class InsertRest extends Node {
-
-
         OptColumnNameListP opt_column_name_list_p_;
         SuperValuesList super_values_list_;
         SelectNoParens select_no_parens_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            IR tmp2;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.opt_column_name_list_p_ != null);
+                    tmp1 = this.opt_column_name_list_p_.translate(vIrCollector);
+                    assert (this.select_no_parens_ != null);
+                    tmp2 = this.select_no_parens_.translate(vIrCollector);
+                    res = new IR(kInsertRest, new IROperator("", "", ""), tmp1, tmp2);
+                    break;
+                case 1:
+                    assert (this.opt_column_name_list_p_ != null);
+                    tmp1 = this.opt_column_name_list_p_.translate(vIrCollector);
+                    res = new IR(kInsertRest, new IROperator("DEFAULT HAVING", "", ""), tmp1);
+                    break;
+                case 2:
+                    assert (this.opt_column_name_list_p_ != null);
+                    tmp1 = this.opt_column_name_list_p_.translate(vIrCollector);
+                    assert (this.super_values_list_ != null);
+                    tmp2 = this.super_values_list_.translate(vIrCollector);
+                    res = new IR(kInsertRest, new IROperator("", "VALUES", ""), tmp1, tmp2);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 3;
+            switch (this.caseIdx) {
+                case 0:
+                    this.opt_column_name_list_p_ = new OptColumnNameListP();
+                    this.opt_column_name_list_p_.generate();
+                    this.select_no_parens_ = new SelectNoParens();
+                    this.select_no_parens_.generate();
+                    break;
+                case 1:
+                    this.opt_column_name_list_p_ = new OptColumnNameListP();
+                    this.opt_column_name_list_p_.generate();
+                    break;
+                case 2:
+                    this.opt_column_name_list_p_ = new OptColumnNameListP();
+                    this.opt_column_name_list_p_.generate();
+                    this.super_values_list_ = new SuperValuesList();
+                    this.super_values_list_.generate();
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.opt_column_name_list_p_ = null;
+            this.select_no_parens_ = null;
+            this.super_values_list_ = null;
         }
     }
 
@@ -3996,133 +4075,292 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            IR tmp2;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.values_list_ != null);
+                    tmp1 = this.values_list_.translate(vIrCollector);
+                    res = new IR(kSuperValuesList, new IROperator("", "", ""), tmp1);
+                    break;
+                case 1:
+                    assert (this.values_list_ != null);
+                    tmp1 = this.values_list_.translate(vIrCollector);
+                    assert (this.super_values_list_ != null);
+                    tmp2 = this.super_values_list_.translate(vIrCollector);
+                    res = new IR(kSuperValuesList, new IROperator("", "", ""), tmp1, tmp2);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 200;
+            switch (this.caseIdx) {
+                case 0:
+                    this.values_list_ = new ValuesList();
+                    this.values_list_.generate();
+                    break;
+                case 1:
+                    this.values_list_ = new ValuesList();
+                    this.values_list_.generate();
+                    this.super_values_list_ = new SuperValuesList();
+                    this.super_values_list_.generate();
+                    break;
+                default:
+                    this.caseIdx = 0;
+                    this.values_list_ = new ValuesList();
+                    this.values_list_.generate();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.values_list_ = null;
+            this.super_values_list_ = null;
         }
     }
 
     class ValuesList extends Node {
-
-
         ExprList expr_list_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            assert (this.expr_list_ != null);
+            IR tmp1 = this.expr_list_.translate(vIrCollector);
+            res = new IR(kValuesList, new IROperator("(", ")", ""), tmp1);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = 0;
+            this.expr_list_ = new ExprList();
+            this.expr_list_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.expr_list_ = null;
         }
     }
 
     class OptOnConflict extends Node {
-
-
         OptConflictExpr opt_conflict_expr_;
         SetClauseList set_clause_list_;
         WhereClause where_clause_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            IR tmp2;
+            IR tmp3;
+            IR tmp4;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.opt_conflict_expr_ != null);
+                    tmp1 = this.opt_conflict_expr_.translate(vIrCollector);
+                    res = new IR(kOptOnConflict, new IROperator("ON CONFLICT", "DO NOTHING", ""), tmp1);
+                    break;
+                case 1:
+                    assert (this.opt_conflict_expr_ != null);
+                    tmp1 = this.opt_conflict_expr_.translate(vIrCollector);
+                    assert (this.set_clause_list_ != null);
+                    tmp2 = this.set_clause_list_.translate(vIrCollector);
+                    assert (this.where_clause_ != null);
+                    tmp3 = this.where_clause_.translate(vIrCollector);
+                    tmp4 = new IR(kUnknown, new IROperator("ON CONFLICT", "DO UPDATE", ""), tmp1, tmp2);
+                    vIrCollector.add(tmp4);
+                    res = new IR(kOptOnConflict, new IROperator("", "", ""), tmp4, tmp3);
+                    break;
+                case 2:
+                    res = new IR(kOptOnConflict, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 3;
+            switch (this.caseIdx) {
+                case 0:
+                    this.opt_conflict_expr_ = new OptConflictExpr();
+                    this.opt_conflict_expr_.generate();
+                    break;
+                case 1:
+                    this.opt_conflict_expr_ = new OptConflictExpr();
+                    this.opt_conflict_expr_.generate();
+                    this.set_clause_list_ = new SetClauseList();
+                    this.set_clause_list_.generate();
+                    this.where_clause_ = new WhereClause();
+                    this.where_clause_.generate();
+                    break;
+                case 2:
+                    break;
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.opt_conflict_expr_ = null;
+            this.set_clause_list_ = null;
+            this.where_clause_ = null;
         }
     }
 
     class OptConflictExpr extends Node {
-
-
         IndexedColumnList indexed_column_list_;
         WhereClause where_clause_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.indexed_column_list_ != null);
+                    IR tmp1 = this.indexed_column_list_.translate(vIrCollector);
+                    assert (this.where_clause_ != null);
+                    IR tmp2 = this.where_clause_.translate(vIrCollector);
+                    res = new IR(kOptConflictExpr, new IROperator("(", ")", ""), tmp1, tmp2);
+                    break;
+                case 1:
+                    res = new IR(kOptConflictExpr, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                    this.indexed_column_list_ = new IndexedColumnList();
+                    this.indexed_column_list_.generate();
+                    this.where_clause_ = new WhereClause();
+                    this.where_clause_.generate();
+                    break;
+                case 1:
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.indexed_column_list_ = null;
+            this.where_clause_ = null;
         }
     }
 
     class IndexedColumnList extends Node {
-
-
         IndexedColumn indexed_column_;
         IndexedColumnList indexed_column_list_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            IR tmp2;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.indexed_column_ != null);
+                    tmp1 = this.indexed_column_.translate(vIrCollector);
+
+                    res = new IR(kIndexedColumnList, new IROperator("", "", ""), tmp1);
+                    break;
+                case 1:
+                    assert (this.indexed_column_ != null);
+                    tmp1 = this.indexed_column_.translate(vIrCollector);
+                    assert (this.indexed_column_list_ != null);
+                    tmp2 = this.indexed_column_list_.translate(vIrCollector);
+                    res = new IR(kIndexedColumnList, new IROperator("", "", ""), tmp1, tmp2);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 200;
+            switch (this.caseIdx) {
+                case 0:
+                    this.indexed_column_ = new IndexedColumn();
+                    this.indexed_column_.generate();
+                    break;
+                case 1:
+                    this.indexed_column_ = new IndexedColumn();
+                    this.indexed_column_.generate();
+                    this.indexed_column_list_ = new IndexedColumnList();
+                    this.indexed_column_list_.generate();
+                    break;
+                default:
+                    this.indexed_column_ = new IndexedColumn();
+                    this.indexed_column_.generate();
+                    this.caseIdx = 0;
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.indexed_column_ = null;
+            this.indexed_column_list_ = null;
         }
     }
 
     class IndexedColumn extends Node {
-
-
         Expr expr_;
         OptOrderBehavior opt_order_behavior_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+
+            assert (this.expr_ != null);
+            IR tmp1 = this.expr_.translate(vIrCollector);
+            assert (this.opt_order_behavior_ != null);
+            IR tmp2 = this.opt_order_behavior_.translate(vIrCollector);
+            res = new IR(kIndexedColumn, new IROperator("", "", ""), tmp1, tmp2);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = 0;
+            this.expr_ = new Expr();
+            this.expr_.generate();
+            this.opt_order_behavior_ = new OptOrderBehavior();
+            this.opt_order_behavior_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.expr_ = null;
+            this.opt_order_behavior_ = null;
         }
     }
 
     class UpdateStmt extends Node {
-
-
         OptAsAlias opt_as_alias_;
         OptWhereClause opt_where_clause_;
         TableName table_name_;
@@ -4132,23 +4370,102 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res = null;
+            IR tmp1;
+            IR tmp2;
+            IR tmp3;
+            IR tmp4;
+            IR tmp5;
+            IR tmp6;
+            IR tmp7;
+            IR tmp8;
+            IR tmp9;
+            IR tmp10;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.table_name_ != null);
+                    tmp1 = this.table_name_.translate(vIrCollector);
+                    assert (this.opt_as_alias_ != null);
+                    tmp2 = this.opt_as_alias_.translate(vIrCollector);
+                    assert (this.set_clause_list_ != null);
+                    tmp3 = this.set_clause_list_.translate(vIrCollector);
+                    assert (this.opt_where_clause_ != null);
+                    tmp4 = this.opt_where_clause_.translate(vIrCollector);
+                    assert (this.opt_order_clause_ != null);
+                    tmp5 = this.opt_order_clause_.translate(vIrCollector);
+                    assert (this.opt_limit_row_count_ != null);
+                    tmp6 = this.opt_limit_row_count_.translate(vIrCollector);
+
+                    tmp7 = new IR(kUnknown, new IROperator("UPDATE IGNORE", "", "SET"), tmp1, tmp2);
+                    vIrCollector.add(tmp7);
+                    tmp8 = new IR(kUnknown, new IROperator("", "", ""), tmp7, tmp3);
+                    vIrCollector.add(tmp8);
+                    tmp9 = new IR(kUnknown, new IROperator("", "", ""), tmp8, tmp4);
+                    vIrCollector.add(tmp9);
+                    tmp10 = new IR(kUnknown, new IROperator("", "", ""), tmp9, tmp5);
+                    vIrCollector.add(tmp10);
+                    res = new IR(kUpdateStmt, new IROperator("", "", ""), tmp10, tmp6);
+                    break;
+                case 1:
+                    assert (this.table_name_ != null);
+                    tmp1 = this.table_name_.translate(vIrCollector);
+                    assert (this.opt_as_alias_ != null);
+                    tmp2 = this.opt_as_alias_.translate(vIrCollector);
+                    assert (this.set_clause_list_ != null);
+                    tmp3 = this.set_clause_list_.translate(vIrCollector);
+                    assert (this.opt_where_clause_ != null);
+                    tmp4 = this.opt_where_clause_.translate(vIrCollector);
+                    assert (this.opt_order_clause_ != null);
+                    tmp5 = this.opt_order_clause_.translate(vIrCollector);
+                    assert (this.opt_limit_row_count_ != null);
+                    tmp6 = this.opt_limit_row_count_.translate(vIrCollector);
+
+                    tmp7 = new IR(kUnknown, new IROperator("UPDATE", "", "SET"), tmp1, tmp2);
+                    vIrCollector.add(tmp7);
+                    tmp8 = new IR(kUnknown, new IROperator("", "", ""), tmp7, tmp3);
+                    vIrCollector.add(tmp8);
+                    tmp9 = new IR(kUnknown, new IROperator("", "", ""), tmp8, tmp4);
+                    vIrCollector.add(tmp9);
+                    tmp10 = new IR(kUnknown, new IROperator("", "", ""), tmp9, tmp5);
+                    vIrCollector.add(tmp10);
+                    res = new IR(kUpdateStmt, new IROperator("", "", ""), tmp10, tmp6);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
+            this.table_name_ = new TableName();
+            this.table_name_.generate();
+            this.opt_as_alias_ = new OptAsAlias();
+            this.opt_as_alias_.generate();
+            this.set_clause_list_ = new SetClauseList();
+            this.set_clause_list_.generate();
+            this.opt_where_clause_ = new OptWhereClause();
+            this.opt_where_clause_.generate();
+            this.opt_order_clause_ = new OptOrderClause();
+            this.opt_order_clause_.generate();
+            this.opt_limit_row_count_ = new OptLimitRowCount();
+            this.opt_limit_row_count_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.table_name_ = null;
+            this.opt_as_alias_ = null;
+            this.set_clause_list_ = null;
+            this.opt_where_clause_ = null;
+            this.opt_order_clause_ = null;
+            this.opt_limit_row_count_ = null;
         }
     }
 
     class AlterAction extends Node {
-
-
         ColumnDef column_def_;
         AlterConstantAction alter_constant_action_;
         OptColumn opt_column_;
@@ -4158,38 +4475,163 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            IR tmp2;
+            IR tmp3;
+            IR tmp4;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.table_name_ != null);
+                    tmp1 = this.table_name_.translate(vIrCollector);
+                    res = new IR(kAlterAction, new IROperator("RENAME TO", "", ""), tmp1);
+                    break;
+                case 1:
+                    assert (this.opt_column_ != null);
+                    tmp1 = this.opt_column_.translate(vIrCollector);
+                    assert (this.column_name_1_ != null);
+                    tmp2 = this.column_name_1_.translate(vIrCollector);
+                    assert (this.column_name_2_ != null);
+                    tmp3 = this.column_name_2_.translate(vIrCollector);
+                    tmp4 = new IR(kUnknown, new IROperator("RENAME", "TO", ""), tmp1, tmp2);
+                    vIrCollector.add(tmp4);
+                    res = new IR(kAlterAction, new IROperator("", "", ""), tmp4, tmp3);
+                    break;
+                case 2:
+                    assert (this.opt_column_ != null);
+                    tmp1 = this.opt_column_.translate(vIrCollector);
+                    assert (this.column_def_ != null);
+                    tmp2 = this.column_def_.translate(vIrCollector);
+                    res = new IR(kAlterAction, new IROperator("ADD", "", ""), tmp1, tmp2);
+                    break;
+                case 3:
+                    assert (this.opt_column_ != null);
+                    tmp1 = this.opt_column_.translate(vIrCollector);
+                    assert (this.column_name_1_ != null);
+                    tmp2 = this.column_name_1_.translate(vIrCollector);
+                    res = new IR(kAlterAction, new IROperator("DROP", "", ""), tmp1, tmp2);
+                    break;
+                case 4:
+                    assert (this.alter_constant_action_ != null);
+                    tmp1 = this.alter_constant_action_.translate(vIrCollector);
+                    res = new IR(kAlterAction, new IROperator("", "", ""), tmp1);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 5;
+            switch (this.caseIdx) {
+                case 0:
+                    this.table_name_ = new TableName();
+                    this.table_name_.generate();
+                    break;
+                case 1:
+                    this.opt_column_ = new OptColumn();
+                    this.opt_column_.generate();
+                    this.column_name_1_ = new ColumnName();
+                    this.column_name_1_.generate();
+                    this.column_name_2_ = new ColumnName();
+                    this.column_name_2_.generate();
+                    break;
+                case 2:
+                    this.opt_column_ = new OptColumn();
+                    this.opt_column_.generate();
+                    this.column_def_ = new ColumnDef();
+                    this.column_def_.generate();
+                    break;
+                case 3:
+                    this.opt_column_ = new OptColumn();
+                    this.opt_column_.generate();
+                    this.column_name_1_ = new ColumnName();
+                    this.column_name_1_.generate();
+                    break;
+                case 4:
+                    this.alter_constant_action_ = new AlterConstantAction();
+                    this.alter_constant_action_.generate();
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.column_def_ = null;
+            this.alter_constant_action_ = null;
+            this.opt_column_ = null;
+            this.table_name_ = null;
+            this.column_name_1_ = null;
+            this.column_name_2_ = null;
         }
     }
 
     class AlterConstantAction extends Node {
-
-
         LockOption lock_option_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    res = new IR(kAlterConstantAction, new IROperator("DROP PRIMARY KEY", "", ""), null, null);
+                    break;
+                case 1:
+                    res = new IR(kAlterConstantAction, new IROperator("FORCE", "", ""), null, null);
+                    break;
+                case 2:
+                    res = new IR(kAlterConstantAction, new IROperator("DISABLE KEYS", "", ""), null, null);
+                    break;
+                case 3:
+                    res = new IR(kAlterConstantAction, new IROperator("ENABLE KEYS", "", ""), null, null);
+                    break;
+                case 4:
+                    assert (this.lock_option_ != null);
+                    IR tmp1 = this.lock_option_.translate(vIrCollector);
+                    res = new IR(kAlterConstantAction, new IROperator("", "", ""), tmp1);
+                    break;
+                case 5:
+                    res = new IR(kAlterConstantAction, new IROperator("WITH VALIDATION", "", ""), null, null);
+                    break;
+                case 6:
+                    res = new IR(kAlterConstantAction, new IROperator("WITHOUT VALIDATION", "", ""), null, null);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 7;
+            switch (this.caseIdx) {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                    break;
+                case 4:
+                    this.lock_option_ = new LockOption();
+                    this.lock_option_.generate();
+                    break;
+                case 5:
+                case 6:
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.lock_option_ = null;
         }
     }
 
@@ -4201,164 +4643,366 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            IR tmp2;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.column_def_ != null);
+                    tmp1 = this.column_def_.translate(vIrCollector);
+                    res = new IR(kColumnDefList, new IROperator("", "", ""), tmp1);
+                    break;
+                case 1:
+                    assert (this.column_def_ != null);
+                    tmp1 = this.column_def_.translate(vIrCollector);
+                    assert (this.column_def_list_ != null);
+                    tmp2 = this.column_def_list_.translate(vIrCollector);
+                    res = new IR(kColumnDefList, new IROperator("", "", ""), tmp1, tmp2);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 200;
+            switch (this.caseIdx) {
+                case 0:
+                    this.column_def_ = new ColumnDef();
+                    this.column_def_.generate();
+                    break;
+                case 1:
+                    this.column_def_ = new ColumnDef();
+                    this.column_def_.generate();
+                    this.column_def_list_ = new ColumnDefList();
+                    this.column_def_list_.generate();
+                    break;
+                default:
+                    this.caseIdx = 0;
+                    this.column_def_ = new ColumnDef();
+                    this.column_def_.generate();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.column_def_ = null;
+            this.column_def_list_ = null;
         }
     }
 
     class ColumnDef extends Node {
-
-
         TypeName type_name_;
         Identifier identifier_;
         OptColumnConstraintList opt_column_constraint_list_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            assert (this.identifier_ != null);
+            IR tmp1 = this.identifier_.translate(vIrCollector);
+            assert (this.type_name_ != null);
+            IR tmp2 = this.type_name_.translate(vIrCollector);
+            assert (this.opt_column_constraint_list_ != null);
+            IR tmp3 = this.opt_column_constraint_list_.translate(vIrCollector);
+            IR tmp4 = new IR(kUnknown, new IROperator("", "", ""), tmp1, tmp2);
+            vIrCollector.add(tmp4);
+            res = new IR(kUnknown, new IROperator("", "", ""), tmp4, tmp3);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = 0;
+            this.identifier_ = new Identifier();
+            this.identifier_.generate();
+            this.type_name_ = new TypeName();
+            this.type_name_.generate();
+            this.opt_column_constraint_list_ = new OptColumnConstraintList();
+            this.opt_column_constraint_list_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.identifier_ = null;
+            this.type_name_ = null;
+            this.opt_column_constraint_list_ = null;
         }
     }
 
     class OptColumnConstraintList extends Node {
-
-
         ColumnConstraintList column_constraint_list_;
         OptReferenceClause opt_reference_clause_;
         OptCheck opt_check_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            IR tmp2;
+            IR tmp3;
+            IR tmp4;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.column_constraint_list_ != null);
+                    tmp1 = this.column_constraint_list_.translate(vIrCollector);
+                    assert (this.opt_check_ != null);
+                    tmp2 = this.opt_check_.translate(vIrCollector);
+                    assert (this.opt_reference_clause_ != null);
+                    tmp3 = this.opt_reference_clause_.translate(vIrCollector);
+                    tmp4 = new IR(kUnknown, new IROperator("", "", ""), tmp1, tmp2);
+                    vIrCollector.add(tmp4);
+                    res = new IR(kOptColumnConstraintList, new IROperator("", "", ""), tmp4, tmp3);
+                    break;
+                case 1:
+                    res = new IR(kOptColumnConstraintList, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                    this.column_constraint_list_ = new ColumnConstraintList();
+                    this.column_constraint_list_.generate();
+                    this.opt_check_ = new OptCheck();
+                    this.opt_check_.generate();
+                    this.opt_reference_clause_ = new OptReferenceClause();
+                    this.opt_reference_clause_.generate();
+                    break;
+                case 1:
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.column_constraint_list_ = null;
+            this.opt_reference_clause_ = null;
+            this.opt_check_ = null;
         }
     }
 
     class ColumnConstraintList extends Node {
-
-
         ColumnConstraintList column_constraint_list_;
         ColumnConstraint column_constraint_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            IR tmp2;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.column_constraint_ != null);
+                    tmp1 = this.column_constraint_.translate(vIrCollector);
+                    res = new IR(kColumnConstraintList, new IROperator("", "", ""), tmp1);
+                    break;
+                case 1:
+                    assert (this.column_constraint_ != null);
+                    tmp1 = this.column_constraint_.translate(vIrCollector);
+                    assert (this.column_constraint_list_ != null);
+                    tmp2 = this.column_constraint_list_.translate(vIrCollector);
+                    res = new IR(kColumnConstraintList, new IROperator("", "", ""), tmp1, tmp2);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                    this.column_constraint_ = new ColumnConstraint();
+                    this.column_constraint_.generate();
+                    break;
+                case 1:
+                    this.column_constraint_ = new ColumnConstraint();
+                    this.column_constraint_.generate();
+                    this.column_constraint_list_ = new ColumnConstraintList();
+                    this.column_constraint_list_.generate();
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.column_constraint_ = null;
+            this.column_constraint_list_ = null;
         }
     }
 
     class ColumnConstraint extends Node {
-
-
         ConstraintType constraint_type_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+
+            assert (this.constraint_type_ != null);
+            IR tmp1 = this.constraint_type_.translate(vIrCollector);
+            res = new IR(kColumnConstraint, new IROperator("", "", ""), tmp1);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = 0;
+            this.constraint_type_ = new ConstraintType();
+            this.constraint_type_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.constraint_type_ = null;
         }
     }
 
     class OptReferenceClause extends Node {
-
-
         ReferenceClause reference_clause_;
         OptForeignKey opt_foreign_key_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            IR tmp2;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.opt_foreign_key_ != null);
+                    tmp1 = this.opt_foreign_key_.translate(vIrCollector);
+                    assert (this.reference_clause_ != null);
+                    tmp2 = this.reference_clause_.translate(vIrCollector);
+                    res = new IR(kOptReferenceClause, new IROperator("", "", ""), tmp1, tmp2);
+                    break;
+                case 1:
+                    res = new IR(kOptReferenceClause, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                    this.opt_foreign_key_ = new OptForeignKey();
+                    this.opt_foreign_key_.generate();
+                    this.reference_clause_ = new ReferenceClause();
+                    this.reference_clause_.generate();
+                    break;
+                case 1:
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.opt_foreign_key_ = null;
+            this.reference_clause_ = null;
         }
     }
 
     class OptCheck extends Node {
-
-
         OptEnforced opt_enforced_;
         Expr expr_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            IR tmp2;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.expr_ != null);
+                    tmp1 = this.expr_.translate(vIrCollector);
+                    assert (this.opt_enforced_ != null);
+                    tmp2 = this.opt_enforced_.translate(vIrCollector);
+                    res = new IR(kOptCheck, new IROperator("", "", ""), tmp1, tmp2);
+                    break;
+                case 1:
+                    res = new IR(kOptCheck, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                    this.expr_ = new Expr();
+                    this.expr_.generate();
+                    this.opt_enforced_ = new OptEnforced();
+                    this.opt_enforced_.generate();
+                    break;
+                case 1:
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.expr_ = null;
+            this.opt_enforced_ = null;
         }
     }
 
     class ConstraintType extends Node {
-
-
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    res = new IR(kConstraintType, new IROperator("PRIMARY KEY", "", ""), null, null);
+                    break;
+                case 1:
+                    res = new IR(kConstraintType, new IROperator("NOT NULL", "", ""), null, null);
+                    break;
+                case 2:
+                    res = new IR(kConstraintType, new IROperator("UNIQUE", "", ""), null, null);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 3;
         }
 
         @Override
@@ -4368,8 +5012,6 @@ public interface astNode {
     }
 
     class ReferenceClause extends Node {
-
-
         OptConstraintAttributeSpec opt_constraint_attribute_spec_;
         OptColumnNameListP opt_column_name_list_p_;
         TableName table_name_;
@@ -4377,31 +5019,69 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+
+            assert (this.table_name_ != null);
+            IR tmp1 = this.table_name_.translate(vIrCollector);
+            assert (this.opt_column_name_list_p_ != null);
+            IR tmp2 = this.opt_column_name_list_p_.translate(vIrCollector);
+            assert (this.opt_foreign_key_actions_ != null);
+            IR tmp3 = this.opt_foreign_key_actions_.translate(vIrCollector);
+            assert (this.opt_constraint_attribute_spec_ != null);
+            IR tmp4 = this.opt_constraint_attribute_spec_.translate(vIrCollector);
+            IR tmp5 = new IR(kUnknown, new IROperator("REFERENCES", "", ""), tmp1, tmp2);
+            vIrCollector.add(tmp5);
+            IR tmp6 = new IR(kUnknown, new IROperator("", "", ""), tmp5, tmp3);
+            vIrCollector.add(tmp6);
+            res = new IR(kReferenceClause, new IROperator("", "", ""), tmp6, tmp4);
+
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = 0;
+            this.table_name_ = new TableName();
+            this.table_name_.generate();
+            this.opt_column_name_list_p_ = new OptColumnNameListP();
+            this.opt_column_name_list_p_.generate();
+            this.opt_constraint_attribute_spec_ = new OptConstraintAttributeSpec();
+            this.opt_constraint_attribute_spec_.generate();
+            this.opt_foreign_key_actions_ = new OptForeignKeyActions();
+            this.opt_foreign_key_actions_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.table_name_ = null;
+            this.opt_column_name_list_p_ = null;
+            this.opt_constraint_attribute_spec_ = null;
+            this.opt_foreign_key_actions_ = null;
         }
     }
 
     class OptForeignKey extends Node {
-
-
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    res = new IR(kOptForeignKey, new IROperator("FOREIGN", "", ""), null, null);
+                    break;
+                case 1:
+                    res = new IR(kOptForeignKey, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
         }
 
         @Override
@@ -4411,58 +5091,136 @@ public interface astNode {
     }
 
     class OptForeignKeyActions extends Node {
-
-
         ForeignKeyActions foreign_key_actions_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.foreign_key_actions_ != null);
+                    IR tmp1 = this.foreign_key_actions_.translate(vIrCollector);
+                    res = new IR(kOptForeignKeyActions, new IROperator("", "", ""), tmp1);
+                    break;
+                case 1:
+                    res = new IR(kOptForeignKeyActions, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                    this.foreign_key_actions_ = new ForeignKeyActions();
+                    this.foreign_key_actions_.generate();
+                    break;
+                case 1:
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.foreign_key_actions_ = null;
         }
     }
 
     class ForeignKeyActions extends Node {
-
-
         KeyActions key_actions_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    res = new IR(kForeignKeyActions, new IROperator("MATCH FULL", "", ""), null, null);
+                    break;
+                case 1:
+                    res = new IR(kForeignKeyActions, new IROperator("MATCH PARTIAL", "", ""), null, null);
+                    break;
+                case 2:
+                    res = new IR(kForeignKeyActions, new IROperator("MATCH SIMPLE", "", ""), null, null);
+                    break;
+                case 3:
+                    assert (this.key_actions_ != null);
+                    IR tmp1 = this.key_actions_.translate(vIrCollector);
+                    res = new IR(kForeignKeyActions, new IROperator("ON UPDATE", "", ""), tmp1);
+                    break;
+                case 4:
+                    assert (this.key_actions_ != null);
+                    IR tmp2 = this.key_actions_.translate(vIrCollector);
+                    res = new IR(kForeignKeyActions, new IROperator("ON DELETE", "", ""), tmp2);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                case 1:
+                case 2:
+                    break;
+                case 3:
+                case 4:
+                    this.key_actions_ = new KeyActions();
+                    this.key_actions_.generate();
+                    break;
+                default:
+                    throw new AssertionError();
+            }
 
         }
 
         @Override
         public void deepDelete() {
-
+            this.key_actions_ = null;
         }
     }
 
     class KeyActions extends Node {
-
-
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    res = new IR(kKeyActions, new IROperator("SET NULL", "", ""), null, null);
+                    break;
+                case 1:
+                    res = new IR(kKeyActions, new IROperator("SET DEFAULT", "", ""), null, null);
+                    break;
+                case 2:
+                    res = new IR(kKeyActions, new IROperator("CASCADE", "", ""), null, null);
+                    break;
+                case 3:
+                    res = new IR(kKeyActions, new IROperator("RESTRICT", "", ""), null, null);
+                    break;
+                case 4:
+                    res = new IR(kKeyActions, new IROperator("NO ACTION", "", ""), null, null);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 5;
         }
 
         @Override
@@ -4472,37 +5230,79 @@ public interface astNode {
     }
 
     class OptConstraintAttributeSpec extends Node {
-
-
         OptInitialTime opt_initial_time_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.opt_initial_time_ != null);
+                    tmp1 = this.opt_initial_time_.translate(vIrCollector);
+                    res = new IR(kOptConstraintAttributeSpec, new IROperator("DEFFERRABLE", "", ""), tmp1);
+                    break;
+                case 1:
+                    assert (this.opt_initial_time_ != null);
+                    tmp1 = this.opt_initial_time_.translate(vIrCollector);
+                    res = new IR(kOptConstraintAttributeSpec, new IROperator("NOT DEFFERRABLE", "", ""), tmp1);
+                    break;
+                case 2:
+                    res = new IR(kOptConstraintAttributeSpec, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 3;
+            switch (this.caseIdx) {
+                case 0:
+                case 1:
+                    this.opt_initial_time_ = new OptInitialTime();
+                    this.opt_initial_time_.generate();
+                    break;
+                case 2:
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.opt_initial_time_ = null;
         }
     }
 
     class OptInitialTime extends Node {
-
-
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    res = new IR(kOptInitialTime, new IROperator("INITIALLY DEFERRED", "", ""), null, null);
+                    break;
+                case 1:
+                    res = new IR(kOptInitialTime, new IROperator("INITIALLY IMMEDIATE", "", ""), null, null);
+                    break;
+                case 2:
+                    res = new IR(kOptInitialTime, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 3;
         }
 
         @Override
@@ -4518,31 +5318,47 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            assert (this.name_ != null);
+            IR tmp1 = this.name_.translate(vIrCollector);
+            res = new IR(kConstraintName, new IROperator("CONSTRAINT", "", ""), tmp1);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.name_ = new Name();
+            this.name_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.name_ = null;
         }
     }
 
     class OptTemp extends Node {
-
-
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    res = new IR(kOptTemp, new IROperator("TEMPORARY", "", ""), null, null);
+                    break;
+                case 1:
+                    res = new IR(kOptTemp, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
         }
 
         @Override
@@ -4552,16 +5368,32 @@ public interface astNode {
     }
 
     class OptCheckOption extends Node {
-
-
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    res = new IR(kOptCheckOption, new IROperator("WITH CHECK OPTION", "", ""), null, null);
+                    break;
+                case 1:
+                    res = new IR(kOptCheckOption, new IROperator("WITH CASCADED CHECK OPTION", "", ""), null, null);
+                    break;
+                case 2:
+                    res = new IR(kOptCheckOption, new IROperator("WITH LOCAL CHECK OPTION", "", ""), null, null);
+                    break;
+                case 3:
+                    res = new IR(kOptCheckOption, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 4;
         }
 
         @Override
@@ -4571,95 +5403,210 @@ public interface astNode {
     }
 
     class OptColumnNameListP extends Node {
-
-
         ColumnNameList column_name_list_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.column_name_list_ != null);
+                    IR tmp1 = this.column_name_list_.translate(vIrCollector);
+                    res = new IR(kOptColumnNameListP, new IROperator("(", ")", ""), tmp1);
+                    break;
+                case 1:
+                    res = new IR(kOptColumnNameListP, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                    this.column_name_list_ = new ColumnNameList();
+                    this.column_name_list_.generate();
+                    break;
+                case 1:
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.column_name_list_ = null;
         }
     }
 
     class SetClauseList extends Node {
-
-
         SetClause set_clause_;
         SetClauseList set_clause_list_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            IR tmp2;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.set_clause_ != null);
+                    tmp1 = this.set_clause_.translate(vIrCollector);
+                    res = new IR(kSetClauseList, new IROperator("", "", ""), tmp1);
+                    break;
+                case 1:
+                    assert (this.set_clause_ != null);
+                    tmp1 = this.set_clause_.translate(vIrCollector);
+                    assert (this.set_clause_list_ != null);
+                    tmp2 = this.set_clause_list_.translate(vIrCollector);
+                    res = new IR(kSetClauseList, new IROperator("", "", ""), tmp1, tmp2);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 200;
+            switch (this.caseIdx) {
+                case 0:
+                    this.set_clause_ = new SetClause();
+                    this.set_clause_.generate();
+                    break;
+                case 1:
+                    this.set_clause_ = new SetClause();
+                    this.set_clause_.generate();
+                    this.set_clause_list_ = new SetClauseList();
+                    this.set_clause_list_.generate();
+                    break;
+                default:
+                    this.caseIdx = 0;
+                    this.set_clause_ = new SetClause();
+                    this.set_clause_.generate();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.set_clause_ = null;
+            this.set_clause_list_ = null;
         }
     }
 
     class SetClause extends Node {
-
-
         Expr expr_;
         ColumnNameList column_name_list_;
         ColumnName column_name_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            IR tmp2;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.column_name_ != null);
+                    tmp1 = this.column_name_.translate(vIrCollector);
+                    assert (this.expr_ != null);
+                    tmp2 = this.expr_.translate(vIrCollector);
+                    res = new IR(kSetClause, new IROperator("", "=", ""), tmp1, tmp2);
+                    break;
+                case 1:
+                    assert (this.column_name_list_ != null);
+                    tmp1 = this.column_name_list_.translate(vIrCollector);
+                    assert (this.expr_ != null);
+                    tmp2 = this.expr_.translate(vIrCollector);
+                    res = new IR(kSetClause, new IROperator("(", ") =", ""), tmp1, tmp2);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                    this.column_name_ = new ColumnName();
+                    this.column_name_.generate();
+                    this.expr_ = new Expr();
+                    this.expr_.generate();
+                    break;
+                case 1:
+                    this.column_name_list_ = new ColumnNameList();
+                    this.column_name_list_.generate();
+                    this.expr_ = new Expr();
+                    this.expr_.generate();
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.column_name_list_ = null;
+            this.expr_ = null;
+            this.column_name_ = null;
         }
     }
 
     class OptAsAlias extends Node {
-
-
         AsAlias as_alias_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.as_alias_ != null);
+                    IR tmp1 = this.as_alias_.translate(vIrCollector);
+                    res = new IR(kOptAsAlias, new IROperator("", "", ""), tmp1);
+                    break;
+                case 1:
+                    res = new IR(kOptAsAlias, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                    this.as_alias_ = new AsAlias();
+                    this.as_alias_.generate();
+                    break;
+                case 1:
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.as_alias_ = null;
         }
     }
 
     class Expr extends Node {
-
-
         CastExpr cast_expr_;
         InExpr in_expr_;
         BetweenExpr between_expr_;
@@ -4669,23 +5616,91 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.operand_ != null);
+                    tmp1 = this.operand_.translate(vIrCollector);
+                    res = new IR(kExpr, new IROperator("", "", ""), tmp1);
+                    break;
+                case 1:
+                    assert (this.between_expr_ != null);
+                    tmp1 = this.between_expr_.translate(vIrCollector);
+                    res = new IR(kExpr, new IROperator("", "", ""), tmp1);
+                    break;
+                case 2:
+                    assert (this.exists_expr_ != null);
+                    tmp1 = this.exists_expr_.translate(vIrCollector);
+                    res = new IR(kExpr, new IROperator("", "", ""), tmp1);
+                    break;
+                case 3:
+                    assert (this.in_expr_ != null);
+                    tmp1 = this.in_expr_.translate(vIrCollector);
+                    res = new IR(kExpr, new IROperator("", "", ""), tmp1);
+                    break;
+                case 4:
+                    assert (this.cast_expr_ != null);
+                    tmp1 = this.cast_expr_.translate(vIrCollector);
+                    res = new IR(kExpr, new IROperator("", "", ""), tmp1);
+                    break;
+                case 5:
+                    assert (this.logic_expr_ != null);
+                    tmp1 = this.logic_expr_.translate(vIrCollector);
+                    res = new IR(kExpr, new IROperator("", "", ""), tmp1);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 6;
+            switch (this.caseIdx) {
+                case 0:
+                    this.operand_ = new Operand();
+                    this.operand_.generate();
+                    break;
+                case 1:
+                    this.between_expr_ = new BetweenExpr();
+                    this.between_expr_.generate();
+                    break;
+                case 2:
+                    this.exists_expr_ = new ExistsExpr();
+                    this.exists_expr_.generate();
+                    break;
+                case 3:
+                    this.in_expr_ = new InExpr();
+                    this.in_expr_.generate();
+                    break;
+                case 4:
+                    this.cast_expr_ = new CastExpr();
+                    this.cast_expr_.generate();
+                    break;
+                case 5:
+                    this.logic_expr_ = new LogicExpr();
+                    this.logic_expr_.generate();
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.cast_expr_ = null;
+            this.in_expr_ = null;
+            this.between_expr_ = null;
+            this.operand_ = null;
+            this.exists_expr_ = null;
+            this.logic_expr_ = null;
         }
     }
 
     class Operand extends Node {
-
-
         FunctionExpr function_expr_;
         UnaryExpr unary_expr_;
         ExprList expr_list_;
@@ -4699,88 +5714,285 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.expr_list_ != null);
+                    tmp1 = this.expr_list_.translate(vIrCollector);
+                    res = new IR(kOperand, new IROperator("(", ")", ""), tmp1);
+                    break;
+                case 1:
+                    assert (this.array_index_ != null);
+                    tmp1 = this.array_index_.translate(vIrCollector);
+                    res = new IR(kOperand, new IROperator("", "", ""), tmp1);
+                    break;
+                case 2:
+                    assert (this.scalar_expr_ != null);
+                    tmp1 = this.scalar_expr_.translate(vIrCollector);
+                    res = new IR(kOperand, new IROperator("", "", ""), tmp1);
+                    break;
+                case 3:
+                    assert (this.unary_expr_ != null);
+                    tmp1 = this.unary_expr_.translate(vIrCollector);
+                    res = new IR(kOperand, new IROperator("", "", ""), tmp1);
+                    break;
+                case 4:
+                    assert (this.binary_expr_ != null);
+                    tmp1 = this.binary_expr_.translate(vIrCollector);
+                    res = new IR(kOperand, new IROperator("", "", ""), tmp1);
+                    break;
+                case 5:
+                    assert (this.case_expr_ != null);
+                    tmp1 = this.case_expr_.translate(vIrCollector);
+                    res = new IR(kOperand, new IROperator("", "", ""), tmp1);
+                    break;
+                case 6:
+                    assert (this.extract_expr_ != null);
+                    tmp1 = this.extract_expr_.translate(vIrCollector);
+                    res = new IR(kOperand, new IROperator("", "", ""), tmp1);
+                    break;
+                case 7:
+                    assert (this.array_expr_ != null);
+                    tmp1 = this.array_expr_.translate(vIrCollector);
+                    res = new IR(kOperand, new IROperator("", "", ""), tmp1);
+                    break;
+                case 8:
+                    assert (this.function_expr_ != null);
+                    tmp1 = this.function_expr_.translate(vIrCollector);
+                    res = new IR(kOperand, new IROperator("", "", ""), tmp1);
+                    break;
+                case 9:
+                    assert (this.select_no_parens_ != null);
+                    tmp1 = this.select_no_parens_.translate(vIrCollector);
+                    res = new IR(kOperand, new IROperator("(", ")", ""), tmp1);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 10;
+            switch (this.caseIdx) {
+                case 0:
+                    this.expr_list_ = new ExprList();
+                    this.expr_list_.generate();
+                    break;
+                case 1:
+                    this.array_index_ = new ArrayIndex();
+                    this.array_index_.generate();
+                    break;
+                case 2:
+                    this.scalar_expr_ = new ScalarExpr();
+                    this.scalar_expr_.generate();
+                    break;
+                case 3:
+                    this.unary_expr_ = new UnaryExpr();
+                    this.unary_expr_.generate();
+                    break;
+                case 4:
+                    this.binary_expr_ = new BinaryExpr();
+                    this.binary_expr_.generate();
+                    break;
+                case 5:
+                    this.case_expr_ = new CaseExpr();
+                    this.case_expr_.generate();
+                    break;
+                case 6:
+                    this.extract_expr_ = new ExtractExpr();
+                    this.extract_expr_.generate();
+                    break;
+                case 7:
+                    this.array_expr_ = new ArrayExpr();
+                    this.array_expr_.generate();
+                    break;
+                case 8:
+                    this.function_expr_ = new FunctionExpr();
+                    this.function_expr_.generate();
+                    break;
+                case 9:
+                    this.select_no_parens_ = new SelectNoParens();
+                    this.select_no_parens_.generate();
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.expr_list_ = null;
+            this.array_index_ = null;
+            this.scalar_expr_ = null;
+            this.unary_expr_ = null;
+            this.binary_expr_ = null;
+            this.case_expr_ = null;
+            this.extract_expr_ = null;
+            this.array_expr_ = null;
+            this.function_expr_ = null;
+            this.select_no_parens_ = null;
         }
     }
 
     class CastExpr extends Node {
-
-
         Expr expr_;
         TypeName type_name_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+
+            assert (this.expr_ != null);
+            IR tmp1 = this.expr_.translate(vIrCollector);
+            assert (this.type_name_ != null);
+            IR tmp2 = this.type_name_.translate(vIrCollector);
+            res = new IR(kCastExpr, new IROperator("CAST (", "AS", ")"), tmp1, tmp2);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = 0;
+            this.expr_ = new Expr();
+            this.expr_.generate();
+            this.type_name_ = new TypeName();
+            this.type_name_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.expr_ = null;
+            this.type_name_ = null;
         }
     }
 
     class ScalarExpr extends Node {
-
-
         Literal literal_;
         ColumnName column_name_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.column_name_ != null);
+                    IR tmp1 = this.column_name_.translate(vIrCollector);
+                    res = new IR(kScalarExpr, new IROperator("", "", ""), tmp1);
+                    break;
+                case 1:
+                    assert (this.literal_ != null);
+                    IR tmp2 = this.literal_.translate(vIrCollector);
+                    res = new IR(kScalarExpr, new IROperator("", "", ""), tmp2);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                    this.column_name_ = new ColumnName();
+                    this.column_name_.generate();
+                    break;
+                case 1:
+                    this.literal_ = new Literal();
+                    this.literal_.generate();
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.column_name_ = null;
+            this.literal_ = null;
         }
     }
 
     class UnaryExpr extends Node {
-
-
         Operand operand_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.operand_ != null);
+                    tmp1 = this.operand_.translate(vIrCollector);
+                    res = new IR(kUnaryExpr, new IROperator("-", "", ""), tmp1);
+                    break;
+                case 1:
+                    assert (this.operand_ != null);
+                    tmp1 = this.operand_.translate(vIrCollector);
+                    res = new IR(kUnaryExpr, new IROperator("NOT", "", ""), tmp1);
+                    break;
+                case 2:
+                    assert (this.operand_ != null);
+                    tmp1 = this.operand_.translate(vIrCollector);
+                    res = new IR(kUnaryExpr, new IROperator("", "ISNULL", ""), tmp1);
+                    break;
+                case 3:
+                    assert (this.operand_ != null);
+                    tmp1 = this.operand_.translate(vIrCollector);
+                    res = new IR(kUnaryExpr, new IROperator("", "IS NULL", ""), tmp1);
+                    break;
+                case 4:
+                    assert (this.operand_ != null);
+                    tmp1 = this.operand_.translate(vIrCollector);
+                    res = new IR(kUnaryExpr, new IROperator("", "IS NOT NULL", ""), tmp1);
+                    break;
+                case 5:
+                    res = new IR(kUnaryExpr, new IROperator("NULL", "", ""), null);
+                    break;
+                case 6:
+                    res = new IR(kUnaryExpr, new IROperator("*", "", ""), null);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 7;
+            switch (this.caseIdx) {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                    this.operand_ = new Operand();
+                    this.operand_.generate();
+                    break;
+                case 5:
+                case 6:
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.operand_ = null;
         }
     }
 
     class BinaryExpr extends Node {
-
-
         Operand operand_1_;
         Operand operand_2_;
         BinaryOp binary_op_;
@@ -4788,45 +6000,146 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            IR tmp2;
+            IR tmp3;
+            IR tmp4;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.comp_expr_ != null);
+                    tmp1 = this.comp_expr_.translate(vIrCollector);
+                    res = new IR(kBinaryExpr, new IROperator("", "", ""), tmp1);
+                    break;
+                case 1:
+                    assert (this.operand_1_ != null);
+                    tmp1 = this.operand_1_.translate(vIrCollector);
+                    assert (this.binary_op_ != null);
+                    tmp2 = this.binary_op_.translate(vIrCollector);
+                    assert (this.operand_2_ != null);
+                    tmp3 = this.operand_2_.translate(vIrCollector);
+                    tmp4 = new IR(kBinaryExpr, new IROperator("", "", ""), tmp1, tmp2);
+                    vIrCollector.add(tmp4);
+                    res = new IR(kBinaryExpr, new IROperator("", "", ""), tmp4, tmp3);
+                    break;
+                case 2:
+                    assert (this.operand_1_ != null);
+                    tmp1 = this.operand_1_.translate(vIrCollector);
+                    assert (this.operand_2_ != null);
+                    tmp2 = this.operand_2_.translate(vIrCollector);
+                    res = new IR(kBinaryExpr, new IROperator("", "LIKE", ""), tmp1, tmp2);
+                    break;
+                case 3:
+                    assert (this.operand_1_ != null);
+                    tmp1 = this.operand_1_.translate(vIrCollector);
+                    assert (this.operand_2_ != null);
+                    tmp2 = this.operand_2_.translate(vIrCollector);
+                    res = new IR(kBinaryExpr, new IROperator("", "NOT LIKE", ""), tmp1, tmp2);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 4;
+            switch (this.caseIdx) {
+                case 0:
+                    this.comp_expr_ = new CompExpr();
+                    this.comp_expr_.generate();
+                    break;
+                case 1:
+                    this.operand_1_ = new Operand();
+                    this.operand_1_.generate();
+                    this.binary_op_ = new BinaryOp();
+                    this.binary_op_.generate();
+                    this.operand_2_ = new Operand();
+                    this.operand_2_.generate();
+                    break;
+                case 2:
+                    this.operand_1_ = new Operand();
+                    this.operand_1_.generate();
+                    this.operand_2_ = new Operand();
+                    this.operand_2_.generate();
+                    break;
+                case 3:
+                    this.operand_1_ = new Operand();
+                    this.operand_1_.generate();
+                    this.operand_2_ = new Operand();
+                    this.operand_2_.generate();
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.operand_1_ = null;
+            this.operand_2_ = null;
+            this.binary_op_ = null;
+            this.comp_expr_ = null;
         }
     }
 
     class LogicExpr extends Node {
-
-
         Expr expr_1_;
         Expr expr_2_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            IR tmp2;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.expr_1_ != null);
+                    tmp1 = this.expr_1_.translate(vIrCollector);
+                    assert (this.expr_2_ != null);
+                    tmp2 = this.expr_2_.translate(vIrCollector);
+                    res = new IR(kLogicExpr, new IROperator("", "AND", ""), tmp1, tmp2);
+                    break;
+                case 1:
+                    assert (this.expr_1_ != null);
+                    tmp1 = this.expr_1_.translate(vIrCollector);
+                    assert (this.expr_2_ != null);
+                    tmp2 = this.expr_2_.translate(vIrCollector);
+                    res = new IR(kLogicExpr, new IROperator("", "OR", ""), tmp1, tmp2);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                case 1:
+                    this.expr_1_ = new Expr();
+                    this.expr_1_.generate();
+                    this.expr_2_ = new Expr();
+                    this.expr_2_.generate();
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.expr_1_ = null;
+            this.expr_2_ = null;
         }
     }
 
     class InExpr extends Node {
-
-
         Operand operand_;
         ExprList expr_list_;
         OptNot opt_not_;
@@ -4835,23 +6148,96 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            IR tmp2;
+            IR tmp3;
+            IR tmp4;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.operand_ != null);
+                    tmp1 = this.operand_.translate(vIrCollector);
+                    assert (this.opt_not_ != null);
+                    tmp2 = this.opt_not_.translate(vIrCollector);
+                    assert (this.select_no_parens_ != null);
+                    tmp3 = this.select_no_parens_.translate(vIrCollector);
+                    tmp4 = new IR(kUnknown, new IROperator("", "", "IN"), tmp1, tmp2);
+                    vIrCollector.add(tmp4);
+                    res = new IR(kInExpr, new IROperator("", "(", ")"), tmp4, tmp3);
+                    break;
+                case 1:
+                    assert (this.operand_ != null);
+                    tmp1 = this.operand_.translate(vIrCollector);
+                    assert (this.opt_not_ != null);
+                    tmp2 = this.opt_not_.translate(vIrCollector);
+                    assert (this.expr_list_ != null);
+                    tmp3 = this.expr_list_.translate(vIrCollector);
+                    tmp4 = new IR(kUnknown, new IROperator("", "", "IN"), tmp1, tmp2);
+                    vIrCollector.add(tmp4);
+                    res = new IR(kInExpr, new IROperator("", "(", ")"), tmp4, tmp3);
+                    break;
+                case 2:
+                    assert (this.operand_ != null);
+                    tmp1 = this.operand_.translate(vIrCollector);
+                    assert (this.opt_not_ != null);
+                    tmp2 = this.opt_not_.translate(vIrCollector);
+                    assert (this.table_name_ != null);
+                    tmp3 = this.table_name_.translate(vIrCollector);
+                    tmp4 = new IR(kUnknown, new IROperator("", "", "IN"), tmp1, tmp2);
+                    vIrCollector.add(tmp4);
+                    res = new IR(kInExpr, new IROperator("", "(", ")"), tmp4, tmp3);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 3;
+            switch (this.caseIdx) {
+                case 0:
+                    this.operand_ = new Operand();
+                    this.operand_.generate();
+                    this.opt_not_ = new OptNot();
+                    this.opt_not_.generate();
+                    this.select_no_parens_ = new SelectNoParens();
+                    this.select_no_parens_.generate();
+                    break;
+                case 1:
+                    this.operand_ = new Operand();
+                    this.operand_.generate();
+                    this.opt_not_ = new OptNot();
+                    this.opt_not_.generate();
+                    this.expr_list_ = new ExprList();
+                    this.expr_list_.generate();
+                    break;
+                case 2:
+                    this.operand_ = new Operand();
+                    this.operand_.generate();
+                    this.opt_not_ = new OptNot();
+                    this.opt_not_.generate();
+                    this.table_name_ = new TableName();
+                    this.table_name_.generate();
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.operand_ = null;
+            this.expr_list_ = null;
+            this.opt_not_ = null;
+            this.table_name_ = null;
+            this.select_no_parens_ = null;
         }
     }
 
     class CaseExpr extends Node {
-
-
         Expr expr_1_;
         Expr expr_2_;
         CaseList case_list_;
