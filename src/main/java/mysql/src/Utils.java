@@ -38,19 +38,19 @@ public class Utils {
         return sb.toString();
     }
 
-    public String gen_string() {
+    public static String gen_string() {
         return "x";
     }
 
-    public double gen_float() {
+    public static double gen_float() {
         return 1.2;
     }
 
-    public long gen_long() {
+    public static long gen_long() {
         return 1;
     }
 
-    public int gen_int() {
+    public static int gen_int() {
         return 1;
     }
 

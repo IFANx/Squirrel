@@ -6,6 +6,7 @@ import mysql.src.ast.IROperator;
 import java.util.List;
 import java.util.Random;
 
+import static mysql.src.Utils.*;
 import static mysql.src.ast.IRType.*;
 import static mysql.src.ast.IRType.kStmt;
 
@@ -6244,68 +6245,185 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            IR tmp2;
+            IR tmp3;
+            IR tmp4;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.expr_1_ != null);
+                    tmp1 = this.expr_1_.translate(vIrCollector);
+                    assert (this.case_list_ != null);
+                    tmp2 = this.case_list_.translate(vIrCollector);
+                    res = new IR(kCaseExpr, new IROperator("CASE", "", "END"), tmp1, tmp2);
+                    break;
+                case 1:
+                    assert (this.case_list_ != null);
+                    tmp2 = this.case_list_.translate(vIrCollector);
+                    res = new IR(kCaseExpr, new IROperator("CASE", "", "END"), tmp2);
+                    break;
+                case 2:
+                    assert (this.expr_1_ != null);
+                    tmp1 = this.expr_1_.translate(vIrCollector);
+                    assert (this.case_list_ != null);
+                    tmp2 = this.case_list_.translate(vIrCollector);
+                    assert (this.expr_2_ != null);
+                    tmp3 = this.expr_2_.translate(vIrCollector);
+                    tmp4 = new IR(kUnknown, new IROperator("CASE", "", "ELSE"), tmp1, tmp2);
+                    vIrCollector.add(tmp4);
+                    res = new IR(kCaseExpr, new IROperator("", "", "END"), tmp4, tmp3);
+                    break;
+                case 3:
+                    assert (this.case_list_ != null);
+                    tmp1 = this.case_list_.translate(vIrCollector);
+                    assert (this.expr_1_ != null);
+                    tmp2 = this.expr_1_.translate(vIrCollector);
+                    res = new IR(kCaseExpr, new IROperator("CASE", "ELSE", "END"), tmp1, tmp2);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 4;
+            switch (this.caseIdx) {
+                case 0:
+                    this.expr_1_ = new Expr();
+                    this.expr_1_.generate();
+                    this.case_list_ = new CaseList();
+                    this.case_list_.generate();
+                    break;
+                case 1:
+                    this.case_list_ = new CaseList();
+                    this.case_list_.generate();
+                    break;
+                case 2:
+                    this.expr_1_ = new Expr();
+                    this.expr_1_.generate();
+                    this.case_list_ = new CaseList();
+                    this.case_list_.generate();
+                    this.expr_2_ = new Expr();
+                    this.expr_2_.generate();
+                    break;
+                case 3:
+                    this.case_list_ = new CaseList();
+                    this.case_list_.generate();
+                    this.expr_1_ = new Expr();
+                    this.expr_1_.generate();
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.expr_1_ = null;
+            this.case_list_ = null;
+            this.expr_2_ = null;
         }
     }
 
     class BetweenExpr extends Node {
-
-
         Operand operand_1_;
         Operand operand_2_;
         Operand operand_3_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            IR tmp2;
+            IR tmp3;
+            IR tmp4;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.operand_1_ != null);
+                    tmp1 = this.operand_1_.translate(vIrCollector);
+                    assert (this.operand_2_ != null);
+                    tmp2 = this.operand_2_.translate(vIrCollector);
+                    assert (this.operand_3_ != null);
+                    tmp3 = this.operand_3_.translate(vIrCollector);
+                    tmp4 = new IR(kUnknown, new IROperator("", "BETWEEN", "AND"), tmp1, tmp2);
+                    vIrCollector.add(tmp4);
+                    res = new IR(kBetweenExpr, new IROperator("", "", ""), tmp4, tmp3);
+                    break;
+                case 1:
+                    assert (this.operand_1_ != null);
+                    tmp1 = this.operand_1_.translate(vIrCollector);
+                    assert (this.operand_2_ != null);
+                    tmp2 = this.operand_2_.translate(vIrCollector);
+                    assert (this.operand_3_ != null);
+                    tmp3 = this.operand_3_.translate(vIrCollector);
+                    tmp4 = new IR(kUnknown, new IROperator("", "NOT BETWEEN", "AND"), tmp1, tmp2);
+                    vIrCollector.add(tmp4);
+                    res = new IR(kBetweenExpr, new IROperator("", "", ""), tmp4, tmp3);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
+            this.operand_1_ = new Operand();
+            this.operand_1_.generate();
+            this.operand_2_ = new Operand();
+            this.operand_2_.generate();
+            this.operand_3_ = new Operand();
+            this.operand_3_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.operand_1_ = null;
+            this.operand_2_ = null;
+            this.operand_3_ = null;
         }
     }
 
     class ExistsExpr extends Node {
-
-
         OptNot opt_not_;
         SelectNoParens select_no_parens_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+
+            assert (this.opt_not_ != null);
+            IR tmp1 = this.opt_not_.translate(vIrCollector);
+            assert (this.select_no_parens_ != null);
+            IR tmp2 = this.select_no_parens_.translate(vIrCollector);
+            res = new IR(kExistsExpr, new IROperator("", "EXISTS(", ")"), tmp1, tmp2);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = 0;
+            this.opt_not_ = new OptNot();
+            this.opt_not_.generate();
+            this.select_no_parens_ = new SelectNoParens();
+            this.select_no_parens_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.opt_not_ = null;
+            this.select_no_parens_ = null;
         }
     }
 
     class FunctionExpr extends Node {
-
-
         ExprList expr_list_;
         FunctionName function_name_;
         OptFilterClause opt_filter_clause_;
@@ -6314,31 +6432,114 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            IR tmp2;
+            IR tmp3;
+            IR tmp4;
+            IR tmp5;
+            IR tmp6;
+            IR tmp7;
+            IR tmp8;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.function_name_ != null);
+                    tmp1 = this.function_name_.translate(vIrCollector);
+                    assert (this.opt_filter_clause_ != null);
+                    tmp2 = this.opt_filter_clause_.translate(vIrCollector);
+                    assert (this.opt_over_clause_ != null);
+                    tmp3 = this.opt_over_clause_.translate(vIrCollector);
+
+                    tmp4 = new IR(kUnknown, new IROperator("", "()", ""), tmp1, tmp2);
+                    vIrCollector.add(tmp4);
+                    res = new IR(kFunctionExpr, new IROperator("", "", ""), tmp4, tmp3);
+                    break;
+                case 1:
+                    assert (this.function_name_ != null);
+                    tmp1 = this.function_name_.translate(vIrCollector);
+                    assert (this.opt_distinct_ != null);
+                    tmp2 = this.opt_distinct_.translate(vIrCollector);
+                    assert (this.expr_list_ != null);
+                    tmp3 = this.expr_list_.translate(vIrCollector);
+                    assert (this.opt_filter_clause_ != null);
+                    tmp4 = this.opt_filter_clause_.translate(vIrCollector);
+                    assert (this.opt_over_clause_ != null);
+                    tmp5 = this.opt_over_clause_.translate(vIrCollector);
+                    tmp6 = new IR(kUnknown, new IROperator("", "(", ""), tmp1, tmp2);
+                    vIrCollector.add(tmp4);
+                    tmp7 = new IR(kUnknown, new IROperator("", "", ")"), tmp6, tmp3);
+                    vIrCollector.add(tmp4);
+                    tmp8 = new IR(kUnknown, new IROperator("", "", ""), tmp7, tmp4);
+                    vIrCollector.add(tmp4);
+                    res = new IR(kFunctionExpr, new IROperator("", "", ""), tmp8, tmp5);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                    this.function_name_ = new FunctionName();
+                    this.function_name_.generate();
+                    this.opt_filter_clause_ = new OptFilterClause();
+                    this.opt_filter_clause_.generate();
+                    this.opt_over_clause_ = new OptOverClause();
+                    this.opt_over_clause_.generate();
+                    break;
+                case 1:
+                    this.function_name_ = new FunctionName();
+                    this.function_name_.generate();
+                    this.opt_distinct_ = new OptDistinct();
+                    this.opt_distinct_.generate();
+                    this.expr_list_ = new ExprList();
+                    this.expr_list_.generate();
+                    this.opt_filter_clause_ = new OptFilterClause();
+                    this.opt_filter_clause_.generate();
+                    this.opt_over_clause_ = new OptOverClause();
+                    this.opt_over_clause_.generate();
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.expr_list_ = null;
+            this.function_name_ = null;
+            this.opt_filter_clause_ = null;
+            this.opt_distinct_ = null;
+            this.opt_over_clause_ = null;
         }
     }
 
     class OptDistinct extends Node {
-
-
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    res = new IR(kOptDistinct, new IROperator("DISTINCT", "", ""), null);
+                    break;
+                case 1:
+                    res = new IR(kOptDistinct, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
         }
 
         @Override
@@ -6348,147 +6549,337 @@ public interface astNode {
     }
 
     class OptFilterClause extends Node {
-
-
         Expr expr_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.expr_ != null);
+                    IR tmp1 = this.expr_.translate(vIrCollector);
+                    res = new IR(kOptFilterClause, new IROperator("FILTER ( WHERE", ")", ""), tmp1);
+                    break;
+                case 1:
+                    res = new IR(kOptFilterClause, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                    this.expr_ = new Expr();
+                    this.expr_.generate();
+                    break;
+                case 1:
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.expr_ = null;
         }
     }
 
     class OptOverClause extends Node {
-
-
         Window window_;
         WindowName window_name_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.window_ != null);
+                    tmp1 = this.window_.translate(vIrCollector);
+                    res = new IR(kOptOverClause, new IROperator("OVER (", ")", ""), tmp1);
+                    break;
+                case 1:
+                    assert (this.window_name_ != null);
+                    tmp1 = this.window_name_.translate(vIrCollector);
+                    res = new IR(kOptOverClause, new IROperator("OVER", "", ""), tmp1);
+                    break;
+                case 2:
+                    res = new IR(kOptOverClause, "");
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 3;
+            switch (this.caseIdx) {
+                case 0:
+                    this.window_ = new Window();
+                    this.window_.generate();
+                    break;
+                case 1:
+                    this.window_name_ = new WindowName();
+                    this.window_name_.generate();
+                    break;
+                case 2:
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.window_name_ = null;
+            this.window_ = null;
         }
     }
 
     class CaseList extends Node {
-
-
         CaseList case_list_;
         CaseClause case_clause_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            IR tmp2;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.case_clause_ != null);
+                    tmp1 = this.case_clause_.translate(vIrCollector);
+                    res = new IR(kCaseList, new IROperator("", "", ""), tmp1);
+                    break;
+                case 1:
+                    assert (this.case_clause_ != null);
+                    tmp1 = this.case_clause_.translate(vIrCollector);
+                    assert (this.case_list_ != null);
+                    tmp2 = this.case_list_.translate(vIrCollector);
+                    res = new IR(kCaseList, new IROperator("", "", ""), tmp1, tmp2);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                    this.case_clause_ = new CaseClause();
+                    this.case_clause_.generate();
+                    break;
+                case 1:
+                    this.case_clause_ = new CaseClause();
+                    this.case_clause_.generate();
+                    this.case_list_ = new CaseList();
+                    this.case_list_.generate();
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.case_list_ = null;
+            this.case_clause_ = null;
         }
     }
 
     class CaseClause extends Node {
-
-
         Expr expr_1_;
         Expr expr_2_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+
+            assert (this.expr_1_ != null);
+            IR tmp1 = this.expr_1_.translate(vIrCollector);
+            assert (this.expr_2_ != null);
+            IR tmp2 = this.expr_2_.translate(vIrCollector);
+
+            res = new IR(kCaseClause, new IROperator("WHEN", "THEN", ""), tmp1, tmp2);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = 0;
+            this.expr_1_ = new Expr();
+            this.expr_1_.generate();
+            this.expr_2_ = new Expr();
+            this.expr_2_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.expr_1_ = null;
+            this.expr_2_ = null;
         }
     }
 
     class CompExpr extends Node {
-
-
         Operand operand_1_;
         Operand operand_2_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            IR tmp2;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.operand_1_ != null);
+                    tmp1 = this.operand_1_.translate(vIrCollector);
+                    assert (this.operand_2_ != null);
+                    tmp2 = this.operand_2_.translate(vIrCollector);
+                    res = new IR(kCompExpr, new IROperator("", "=", ""), tmp1, tmp2);
+                    break;
+                case 1:
+                    assert (this.operand_1_ != null);
+                    tmp1 = this.operand_1_.translate(vIrCollector);
+                    assert (this.operand_2_ != null);
+                    tmp2 = this.operand_2_.translate(vIrCollector);
+                    res = new IR(kCompExpr, new IROperator("", "!=", ""), tmp1, tmp2);
+                    break;
+                case 2:
+                    assert (this.operand_1_ != null);
+                    tmp1 = this.operand_1_.translate(vIrCollector);
+                    assert (this.operand_2_ != null);
+                    tmp2 = this.operand_2_.translate(vIrCollector);
+                    res = new IR(kCompExpr, new IROperator("", ">", ""), tmp1, tmp2);
+                    break;
+                case 3:
+                    assert (this.operand_1_ != null);
+                    tmp1 = this.operand_1_.translate(vIrCollector);
+                    assert (this.operand_2_ != null);
+                    tmp2 = this.operand_2_.translate(vIrCollector);
+                    res = new IR(kCompExpr, new IROperator("", "<", ""), tmp1, tmp2);
+                    break;
+                case 4:
+                    assert (this.operand_1_ != null);
+                    tmp1 = this.operand_1_.translate(vIrCollector);
+                    assert (this.operand_2_ != null);
+                    tmp2 = this.operand_2_.translate(vIrCollector);
+                    res = new IR(kCompExpr, new IROperator("", "<=", ""), tmp1, tmp2);
+                    break;
+                case 5:
+                    assert (this.operand_1_ != null);
+                    tmp1 = this.operand_1_.translate(vIrCollector);
+                    assert (this.operand_2_ != null);
+                    tmp2 = this.operand_2_.translate(vIrCollector);
+                    res = new IR(kCompExpr, new IROperator("", ">=", ""), tmp1, tmp2);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 6;
+            switch (this.caseIdx) {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                    this.operand_1_ = new Operand();
+                    this.operand_1_.generate();
+                    this.operand_2_ = new Operand();
+                    this.operand_2_.generate();
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.operand_1_ = null;
+            this.operand_2_ = null;
         }
     }
 
     class ExtractExpr extends Node {
-
-
         DatetimeField datetime_field_;
         Expr expr_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            assert (this.datetime_field_ != null);
+            IR tmp1 = this.datetime_field_.translate(vIrCollector);
+            assert (this.expr_ != null);
+            IR tmp2 = this.expr_.translate(vIrCollector);
+            IR res = new IR(kExtractExpr, new IROperator("EXTRACT (", "FROM", ")"), tmp1, tmp2);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = 0;
         }
 
         @Override
         public void deepDelete() {
-
+            this.datetime_field_ = null;
+            this.expr_ = null;
         }
     }
 
     class DatetimeField extends Node {
-
-
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    res = new IR(kDatetimeField, new IROperator("SECOND", "", ""), null);
+                    break;
+                case 1:
+                    res = new IR(kDatetimeField, new IROperator("MINUTE", "", ""), null);
+                    break;
+                case 2:
+                    res = new IR(kDatetimeField, new IROperator("HOUR", "", ""), null);
+                    break;
+                case 3:
+                    res = new IR(kDatetimeField, new IROperator("DAY", "", ""), null);
+                    break;
+                case 4:
+                    res = new IR(kDatetimeField, new IROperator("MONTH", "", ""), null);
+                    break;
+                case 5:
+                    res = new IR(kDatetimeField, new IROperator("YESR", "", ""), null);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 6;
         }
 
         @Override
@@ -6498,84 +6889,139 @@ public interface astNode {
     }
 
     class ArrayExpr extends Node {
-
-
         ExprList expr_list_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+
+            assert (this.expr_list_ != null);
+            IR tmp1 = this.expr_list_.translate(vIrCollector);
+            res = new IR(kArrayExpr, new IROperator("ARRAY [", "]", ""), tmp1);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.expr_list_ = new ExprList();
+            this.expr_list_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.expr_list_ = null;
         }
     }
 
     class ArrayIndex extends Node {
-
-
         Operand operand_;
         IntLiteral int_literal_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+
+            assert (this.operand_ != null);
+            IR tmp1 = this.operand_.translate(vIrCollector);
+            assert (this.int_literal_ != null);
+            IR tmp2 = this.int_literal_.translate(vIrCollector);
+            res = new IR(kArrayExpr, new IROperator("", "[", "]"), tmp1, tmp2);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.operand_ = new Operand();
+            this.operand_.generate();
+            this.int_literal_ = new IntLiteral();
+            this.int_literal_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.operand_ = null;
+            this.int_literal_ = null;
         }
     }
 
     class Literal extends Node {
-
-
         BoolLiteral bool_literal_;
         StringLiteral string_literal_;
         NumLiteral num_literal_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.string_literal_ != null);
+                    tmp1 = this.string_literal_.translate(vIrCollector);
+                    res = new IR(kLiteral, new IROperator("", "", ""), tmp1);
+                    break;
+                case 1:
+                    assert (this.bool_literal_ != null);
+                    tmp1 = this.bool_literal_.translate(vIrCollector);
+                    res = new IR(kLiteral, new IROperator("", "", ""), tmp1);
+                    break;
+                case 2:
+                    assert (this.num_literal_ != null);
+                    tmp1 = this.num_literal_.translate(vIrCollector);
+                    res = new IR(kLiteral, new IROperator("", "", ""), tmp1);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 3;
+            switch (this.caseIdx) {
+                case 0:
+                    this.string_literal_ = new StringLiteral();
+                    this.string_literal_.generate();
+                    break;
+                case 1:
+                    this.bool_literal_ = new BoolLiteral();
+                    this.bool_literal_.generate();
+                    break;
+                case 2:
+                    this.num_literal_ = new NumLiteral();
+                    this.num_literal_.generate();
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.string_literal_ = null;
+            this.bool_literal_ = null;
+            this.num_literal_ = null;
         }
     }
 
     class StringLiteral extends Node {
-
-
         String string_val_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            res = new IR(kStringLiteral, this.string_val_, this.dataType, this.scope, this.dataFlag);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = 0;
+            this.string_val_ = gen_string();
         }
 
         @Override
@@ -6585,16 +7031,26 @@ public interface astNode {
     }
 
     class BoolLiteral extends Node {
-
-
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    res = new IR(kBoolLiteral, new IROperator("TRUE", "", ""), null);
+                    break;
+                case 1:
+                    res = new IR(kBoolLiteral, new IROperator("FALSE", "", ""), null);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
         }
 
         @Override
@@ -6604,40 +7060,70 @@ public interface astNode {
     }
 
     class NumLiteral extends Node {
-
-
         IntLiteral int_literal_;
         FloatLiteral float_literal_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.int_literal_ != null);
+                    tmp1 = this.int_literal_.translate(vIrCollector);
+                    res = new IR(kNumLiteral, new IROperator("", "", ""), tmp1);
+                    break;
+                case 1:
+                    assert (this.float_literal_ != null);
+                    tmp1 = this.float_literal_.translate(vIrCollector);
+                    res = new IR(kNumLiteral, new IROperator("", "", ""), tmp1);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                    this.int_literal_ = new IntLiteral();
+                    this.int_literal_.generate();
+                    break;
+                case 1:
+                    this.float_literal_ = new FloatLiteral();
+                    this.float_literal_.generate();
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.int_literal_ = null;
+            this.float_literal_ = null;
         }
     }
 
     class IntLiteral extends Node {
-
-
         int int_val_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            res = new IR(kIntLiteral, this.int_val_, this.dataType, this.scope, this.dataFlag);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = 0;
+            this.int_val_ = gen_int();
         }
 
         @Override
@@ -6647,18 +7133,20 @@ public interface astNode {
     }
 
     class FloatLiteral extends Node {
-
-
         float float_val_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            res = new IR(kFloatLiteral, this.float_val_, this.dataType, this.scope, this.dataFlag);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = 0;
+            this.float_val_ = (float) gen_float();
         }
 
         @Override
@@ -6668,16 +7156,26 @@ public interface astNode {
     }
 
     class OptColumn extends Node {
-
-
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    res = new IR(kOptColumn, new IROperator("COLUMN", "", ""), null);
+                    break;
+                case 1:
+                    res = new IR(kOptColumn, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
         }
 
         @Override
@@ -6687,8 +7185,6 @@ public interface astNode {
     }
 
     class TriggerBody extends Node {
-
-
         AlterStmt alter_stmt_;
         DropStmt drop_stmt_;
         InsertStmt insert_stmt_;
@@ -6696,31 +7192,91 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.drop_stmt_ != null);
+                    tmp1 = this.drop_stmt_.translate(vIrCollector);
+                    res = new IR(kTriggerBody, new IROperator("", "", ""), tmp1);
+                    break;
+                case 1:
+                    assert (this.update_stmt_ != null);
+                    tmp1 = this.update_stmt_.translate(vIrCollector);
+                    res = new IR(kTriggerBody, new IROperator("", "", ""), tmp1);
+                    break;
+                case 2:
+                    assert (this.insert_stmt_ != null);
+                    tmp1 = this.insert_stmt_.translate(vIrCollector);
+                    res = new IR(kTriggerBody, new IROperator("", "", ""), tmp1);
+                    break;
+                case 3:
+                    assert (this.alter_stmt_ != null);
+                    tmp1 = this.alter_stmt_.translate(vIrCollector);
+                    res = new IR(kTriggerBody, new IROperator("", "", ""), tmp1);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 4;
+            switch (this.caseIdx) {
+                case 0:
+                    this.drop_stmt_ = new DropStmt();
+                    this.drop_stmt_.generate();
+                    break;
+                case 1:
+                    this.update_stmt_ = new UpdateStmt();
+                    this.update_stmt_.generate();
+                    break;
+                case 2:
+                    this.insert_stmt_ = new InsertStmt();
+                    this.insert_stmt_.generate();
+                    break;
+                case 3:
+                    this.alter_stmt_ = new AlterStmt();
+                    this.alter_stmt_.generate();
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.drop_stmt_ = null;
+            this.update_stmt_ = null;
+            this.insert_stmt_ = null;
+            this.alter_stmt_ = null;
         }
     }
 
     class OptIfNotExist extends Node {
-
-
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    res = new IR(kOptIfNotExist, new IROperator("IF NOT EXISTS", "", ""), null);
+                    break;
+                case 1:
+                    res = new IR(kOptIfNotExist, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
         }
 
         @Override
@@ -6730,16 +7286,26 @@ public interface astNode {
     }
 
     class OptIfExist extends Node {
-
-
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    res = new IR(kOptIfExist, new IROperator("IF EXISTS", "", ""), null);
+                    break;
+                case 1:
+                    res = new IR(kOptIfExist, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
         }
 
         @Override
@@ -6749,18 +7315,20 @@ public interface astNode {
     }
 
     class Identifier extends Node {
-
-
         String string_val_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            res = new IR(kIdentifier, this.string_val_, this.dataType, this.scope, this.dataFlag);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = 0;
+            this.string_val_ = gen_string();
         }
 
         @Override
@@ -6770,71 +7338,89 @@ public interface astNode {
     }
 
     class AsAlias extends Node {
-
-
         Identifier identifier_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+
+            assert (this.identifier_ != null);
+            IR tmp1 = this.identifier_.translate(vIrCollector);
+            res = new IR(kAsAlias, new IROperator("AS", "", ""), tmp1);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = 0;
+            this.identifier_ = new Identifier();
+            this.identifier_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.identifier_ = null;
         }
     }
 
     class TableName extends Node {
-
-
         Identifier identifier_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+
+            assert (this.identifier_ != null);
+            IR tmp1 = this.identifier_.translate(vIrCollector);
+            res = new IR(kTableName, new IROperator("", "", ""), tmp1);
+            vIrCollector.add(res);
+            return res;
+
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = 0;
+            this.identifier_ = new Identifier();
+            this.identifier_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.identifier_ = null;
         }
     }
 
     class ColumnName extends Node {
-
-
         Identifier identifier_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+
+            assert (this.identifier_ != null);
+            IR tmp1 = this.identifier_.translate(vIrCollector);
+            res = new IR(kColumnName, new IROperator("", "", ""), tmp1);
+            vIrCollector.add(res);
+            return res;
+
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = 0;
+            this.identifier_ = new Identifier();
+            this.identifier_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.identifier_ = null;
         }
     }
 
     class OptIndexKeyword extends Node {
-
-
         @Override
         public IR translate(List<IR> vIrCollector) {
             return null;
