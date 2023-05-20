@@ -7423,12 +7423,30 @@ public interface astNode {
     class OptIndexKeyword extends Node {
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    res = new IR(kOptIndexKeyword, new IROperator("UNIQUE", "", ""), null);
+                    break;
+                case 1:
+                    res = new IR(kOptIndexKeyword, new IROperator("FULLTEXT", "", ""), null);
+                    break;
+                case 2:
+                    res = new IR(kOptIndexKeyword, new IROperator("SPATIAL", "", ""), null);
+                    break;
+                case 3:
+                    res = new IR(kOptIndexKeyword, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 4;
         }
 
         @Override
@@ -7438,44 +7456,56 @@ public interface astNode {
     }
 
     class ViewName extends Node {
-
-
         Identifier identifier_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+
+            assert (this.identifier_ != null);
+            IR tmp1 = this.identifier_.translate(vIrCollector);
+            res = new IR(kViewName, new IROperator("", "", ""), tmp1);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = 0;
+            this.identifier_ = new Identifier();
+            this.identifier_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.identifier_ = null;
         }
     }
 
     class FunctionName extends Node {
-
-
         Identifier identifier_;
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+
+            assert (this.identifier_ != null);
+            IR tmp1 = this.identifier_.translate(vIrCollector);
+            res = new IR(kFunctionName, new IROperator("", "", ""), tmp1);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = 0;
+            this.identifier_ = new Identifier();
+            this.identifier_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.identifier_ = null;
         }
     }
 
@@ -7483,12 +7513,36 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    res = new IR(kBinaryOp, new IROperator("+", "", ""), null, null);
+                    break;
+                case 1:
+                    res = new IR(kBinaryOp, new IROperator("-", "", ""), null, null);
+                    break;
+                case 2:
+                    res = new IR(kBinaryOp, new IROperator("/", "", ""), null, null);
+                    break;
+                case 3:
+                    res = new IR(kBinaryOp, new IROperator("%", "", ""), null, null);
+                    break;
+                case 4:
+                    res = new IR(kBinaryOp, new IROperator("*", "", ""), null, null);
+                    break;
+                case 5:
+                    res = new IR(kBinaryOp, new IROperator("^", "", ""), null, null);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 6;
         }
 
         @Override
@@ -7500,12 +7554,24 @@ public interface astNode {
     class OptNot extends Node {
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    res = new IR(kOptNot, new IROperator("NOT", "", ""), null, null);
+                    break;
+                case 1:
+                    res = new IR(kOptNot, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
         }
 
         @Override
@@ -7519,17 +7585,25 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+
+            assert (this.identifier_ != null);
+            IR tmp1 = this.identifier_.translate(vIrCollector);
+            res = new IR(kName, new IROperator("", "", ""), tmp1);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = 0;
+            this.identifier_ = new Identifier();
+            this.identifier_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.identifier_ = null;
         }
     }
 
@@ -7539,17 +7613,46 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.numeric_type_ != null);
+                    IR tmp1 = this.numeric_type_.translate(vIrCollector);
+                    res = new IR(kTypeName, new IROperator("", "", ""), tmp1);
+                    break;
+                case 1:
+                    assert (this.character_type_ != null);
+                    IR tmp2 = this.character_type_.translate(vIrCollector);
+                    res = new IR(kTypeName, new IROperator("", "", ""), tmp2);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                    this.numeric_type_ = new NumericType();
+                    this.numeric_type_.generate();
+                    break;
+                case 1:
+                    this.character_type_ = new CharacterType();
+                    this.character_type_.generate();
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.numeric_type_ = null;
+            this.character_type_ = null;
         }
     }
 
@@ -7559,17 +7662,46 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.character_with_length_ != null);
+                    IR tmp1 = this.character_with_length_.translate(vIrCollector);
+                    res = new IR(kCharacterType, new IROperator("", "", ""), tmp1);
+                    break;
+                case 1:
+                    assert (this.character_without_length_ != null);
+                    IR tmp2 = this.character_without_length_.translate(vIrCollector);
+                    res = new IR(kCharacterType, new IROperator("", "", ""), tmp2);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                    this.character_with_length_ = new CharacterWithLength();
+                    this.character_with_length_.generate();
+                    break;
+                case 1:
+                    this.character_without_length_ = new CharacterWithoutLength();
+                    this.character_without_length_.generate();
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.character_with_length_ = null;
+            this.character_without_length_ = null;
         }
     }
 
@@ -7579,17 +7711,30 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+
+            assert (this.character_conflicta_ != null);
+            IR tmp1 = this.character_conflicta_.translate(vIrCollector);
+            assert (this.int_literal_ != null);
+            IR tmp2 = this.int_literal_.translate(vIrCollector);
+            res = new IR(kCharacterWithLength, new IROperator("", "(", ")"), tmp1, tmp2);
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = 0;
+            this.character_conflicta_ = new CharacterConflicta();
+            this.character_conflicta_.generate();
+            this.int_literal_ = new IntLiteral();
+            this.int_literal_.generate();
         }
 
         @Override
         public void deepDelete() {
-
+            this.character_conflicta_ = null;
+            this.int_literal_ = null;
         }
     }
 
@@ -7598,29 +7743,97 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.character_conflicta_ != null);
+                    IR tmp1 = this.character_conflicta_.translate(vIrCollector);
+                    res = new IR(kCharacterWithoutLength, new IROperator("", "", ""), tmp1);
+                    break;
+                case 1:
+                    res = new IR(kCharacterWithoutLength, new IROperator("SET", "", ""), null);
+                    break;
+                case 2:
+                    res = new IR(kCharacterWithoutLength, new IROperator("ENUM", "", ""), null);
+                    break;
+                case 3:
+                    res = new IR(kCharacterWithoutLength, new IROperator("BINARY", "", ""), null);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 4;
+            switch (this.caseIdx) {
+                case 0:
+                    this.character_conflicta_ = new CharacterConflicta();
+                    this.character_conflicta_.generate();
+                    break;
+                case 1:
+                case 2:
+                case 3:
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.character_conflicta_ = null;
         }
     }
 
     class CharacterConflicta extends Node {
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    res = new IR(kCharacterConflicta, new IROperator("CHARACTER", "", ""), null);
+                    break;
+                case 1:
+                    res = new IR(kCharacterConflicta, new IROperator("CHAR", "", ""), null);
+                    break;
+                case 2:
+                    res = new IR(kCharacterConflicta, new IROperator("VARCHAR", "", ""), null);
+                    break;
+                case 3:
+                    res = new IR(kCharacterConflicta, new IROperator("TEXT", "", ""), null);
+                    break;
+                case 4:
+                    res = new IR(kCharacterConflicta, new IROperator("TINYTEXT", "", ""), null);
+                    break;
+                case 5:
+                    res = new IR(kCharacterConflicta, new IROperator("MEDIUMTEXT", "", ""), null);
+                    break;
+                case 6:
+                    res = new IR(kCharacterConflicta, new IROperator("LONGTEXT", "", ""), null);
+                    break;
+                case 7:
+                    res = new IR(kCharacterConflicta, new IROperator("NATIONAL CHARACTER", "", ""), null);
+                    break;
+                case 8:
+                    res = new IR(kCharacterConflicta, new IROperator("NATIONAL CHAR", "", ""), null);
+                    break;
+                case 9:
+                    res = new IR(kCharacterConflicta, new IROperator("NCHAR", "", ""), null);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 10;
         }
 
         @Override
@@ -7632,12 +7845,57 @@ public interface astNode {
     class NumericType extends Node {
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    res = new IR(kNumericType, new IROperator("INT", "", ""), null);
+                    break;
+                case 1:
+                    res = new IR(kNumericType, new IROperator("INTEGER", "", ""), null);
+                    break;
+                case 2:
+                    res = new IR(kNumericType, new IROperator("SMALLINT", "", ""), null);
+                    break;
+                case 3:
+                    res = new IR(kNumericType, new IROperator("BIGINT", "", ""), null);
+                    break;
+                case 4:
+                    res = new IR(kNumericType, new IROperator("REAL", "", ""), null);
+                    break;
+                case 5:
+                    res = new IR(kNumericType, new IROperator("FLOAT", "", ""), null);
+                    break;
+                case 6:
+                    res = new IR(kNumericType, new IROperator("FIXED", "", ""), null);
+                    break;
+                case 7:
+                    res = new IR(kNumericType, new IROperator("DOUBLE", "", ""), null);
+                    break;
+                case 8:
+                    res = new IR(kNumericType, new IROperator("DOUBLE PRECISION", "", ""), null);
+                    break;
+                case 9:
+                    res = new IR(kNumericType, new IROperator("DECIMAL", "", ""), null);
+                    break;
+                case 10:
+                    res = new IR(kNumericType, new IROperator("DEC", "", ""), null);
+                    break;
+                case 11:
+                    res = new IR(kNumericType, new IROperator("NUMERIC", "", ""), null);
+                    break;
+                case 12:
+                    res = new IR(kNumericType, new IROperator("BOOLEAN", "", ""), null);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 13;
         }
 
         @Override
@@ -7651,17 +7909,41 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.table_constraint_list_ != null);
+                    IR tmp1 = this.table_constraint_list_.translate(vIrCollector);
+                    res = new IR(kOptTableConstraintList, new IROperator("", "", ""), tmp1);
+                    break;
+                case 1:
+                    res = new IR(kOptTableConstraintList, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 2;
+            switch (this.caseIdx) {
+                case 0:
+                    this.table_constraint_list_ = new TableConstraintList();
+                    this.table_constraint_list_.generate();
+                    break;
+                case 1:
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.table_constraint_list_ = null;
         }
     }
 
@@ -7671,17 +7953,57 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            IR tmp2;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.table_constraint_ != null);
+                    tmp1 = this.table_constraint_.translate(vIrCollector);
+
+
+                    res = new IR(kTableConstraintList, new IROperator("", "", ""), tmp1);
+                    break;
+                case 1:
+                    assert (this.table_constraint_ != null);
+                    tmp1 = this.table_constraint_.translate(vIrCollector);
+                    assert (this.table_constraint_list_ != null);
+                    tmp2 = this.table_constraint_list_.translate(vIrCollector);
+                    res = new IR(kTableConstraintList, new IROperator("", "", ""), tmp1, tmp2);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 200;
+            switch (this.caseIdx) {
+                case 0:
+                    this.table_constraint_ = new TableConstraint();
+                    this.table_constraint_.generate();
+                    break;
+                case 1:
+                    this.table_constraint_ = new TableConstraint();
+                    this.table_constraint_.generate();
+                    this.table_constraint_list_ = new TableConstraintList();
+                    this.table_constraint_list_.generate();
+                    break;
+                default:
+                    this.caseIdx = 0;
+                    this.table_constraint_ = new TableConstraint();
+                    this.table_constraint_.generate();
+                    break;
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.table_constraint_ = null;
+            this.table_constraint_list_ = null;
         }
     }
 
@@ -7695,29 +8017,127 @@ public interface astNode {
 
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            IR tmp1;
+            IR tmp2;
+            IR tmp3;
+            IR tmp4;
+            switch (this.caseIdx) {
+                case 0:
+                    assert (this.constraint_name_ != null);
+                    tmp1 = this.constraint_name_.translate(vIrCollector);
+                    assert (this.indexed_column_list_ != null);
+                    tmp2 = this.indexed_column_list_.translate(vIrCollector);
+                    res = new IR(kTableConstraint, new IROperator("", "PRIMARY KEY (", ")"), tmp1, tmp2);
+                    break;
+                case 1:
+                    assert (this.constraint_name_ != null);
+                    tmp1 = this.constraint_name_.translate(vIrCollector);
+                    assert (this.indexed_column_list_ != null);
+                    tmp2 = this.indexed_column_list_.translate(vIrCollector);
+                    res = new IR(kTableConstraint, new IROperator("", "UNIQUE (", ")"), tmp1, tmp2);
+                    break;
+                case 2:
+                    assert (this.constraint_name_ != null);
+                    tmp1 = this.constraint_name_.translate(vIrCollector);
+                    assert (this.expr_ != null);
+                    tmp2 = this.expr_.translate(vIrCollector);
+                    assert (this.opt_enforced_ != null);
+                    tmp3 = this.opt_enforced_.translate(vIrCollector);
+                    tmp4 = new IR(kUnknown, new IROperator("", "CHECK (", ")"), tmp1, tmp2);
+                    vIrCollector.add(tmp4);
+                    res = new IR(kTableConstraint, new IROperator("", "", ""), tmp4, tmp3);
+                    break;
+                case 3:
+                    assert (this.constraint_name_ != null);
+                    tmp1 = this.constraint_name_.translate(vIrCollector);
+                    assert (this.column_name_list_ != null);
+                    tmp2 = this.column_name_list_.translate(vIrCollector);
+                    assert (this.reference_clause_ != null);
+                    tmp3 = this.reference_clause_.translate(vIrCollector);
+                    tmp4 = new IR(kUnknown, new IROperator("", "FOREIGN KEY (", ")"), tmp1, tmp2);
+                    vIrCollector.add(tmp4);
+                    res = new IR(kTableConstraint, new IROperator("", "", ""), tmp4, tmp3);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 4;
+            switch (this.caseIdx) {
+                case 0:
+                    this.constraint_name_ = new ConstraintName();
+                    this.constraint_name_.generate();
+                    this.indexed_column_list_ = new IndexedColumnList();
+                    this.indexed_column_list_.generate();
+                    break;
+                case 1:
+                    this.constraint_name_ = new ConstraintName();
+                    this.constraint_name_.generate();
+                    this.indexed_column_list_ = new IndexedColumnList();
+                    this.indexed_column_list_.generate();
+                    break;
+                case 2:
+                    this.constraint_name_ = new ConstraintName();
+                    this.constraint_name_.generate();
+                    this.expr_ = new Expr();
+                    this.expr_.generate();
+                    this.opt_enforced_ = new OptEnforced();
+                    this.opt_enforced_.generate();
+                    break;
+                case 3:
+                    this.constraint_name_ = new ConstraintName();
+                    this.constraint_name_.generate();
+                    this.indexed_column_list_ = new IndexedColumnList();
+                    this.indexed_column_list_.generate();
+                    this.reference_clause_ = new ReferenceClause();
+                    this.reference_clause_.generate();
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
 
         @Override
         public void deepDelete() {
-
+            this.indexed_column_list_ = null;
+            this.constraint_name_ = null;
+            this.expr_ = null;
+            this.column_name_list_ = null;
+            this.reference_clause_ = null;
+            this.opt_enforced_ = null;
         }
     }
 
     class OptEnforced extends Node {
         @Override
         public IR translate(List<IR> vIrCollector) {
-            return null;
+            IR res;
+            switch (this.caseIdx) {
+                case 0:
+                    res = new IR(kOptEnforced, new IROperator("ENFORCED", "", ""), null);
+                    break;
+                case 1:
+                    res = new IR(kOptEnforced, new IROperator("ENFORCED", "", ""), null);
+                    break;
+                case 2:
+                    res = new IR(kOptEnforced, "");
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            vIrCollector.add(res);
+            return res;
         }
 
         @Override
         public void generate() {
-
+            this.caseIdx = random.nextInt() % 3;
         }
 
         @Override
