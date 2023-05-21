@@ -181,43 +181,31 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 6;
+            this.caseIdx = Math.abs(random.nextInt()) % 6;
             switch (this.caseIdx) {
                 case 0:
-                    if (this.create_stmt_ != null) {
-                        this.create_stmt_ = new CreateStmt();
-                        create_stmt_.generate();
-                    }
+                    this.create_stmt_ = new CreateStmt();
+                    create_stmt_.generate();
                     break;
                 case 1:
-                    if (this.drop_stmt_ != null) {
-                        this.drop_stmt_ = new DropStmt();
-                        this.drop_stmt_.generate();
-                    }
+                    this.drop_stmt_ = new DropStmt();
+                    this.drop_stmt_.generate();
                     break;
                 case 2:
-                    if (this.select_stmt_ != null) {
-                        this.select_stmt_ = new SelectStmt();
-                        this.select_stmt_.generate();
-                    }
+                    this.select_stmt_ = new SelectStmt();
+                    this.select_stmt_.generate();
                     break;
                 case 3:
-                    if (this.update_stmt_ != null) {
-                        this.update_stmt_ = new UpdateStmt();
-                        this.update_stmt_.generate();
-                    }
+                    this.update_stmt_ = new UpdateStmt();
+                    this.update_stmt_.generate();
                     break;
                 case 4:
-                    if (this.insert_stmt_ != null) {
-                        this.insert_stmt_ = new InsertStmt();
-                        this.insert_stmt_.generate();
-                    }
+                    this.insert_stmt_ = new InsertStmt();
+                    this.insert_stmt_.generate();
                     break;
                 case 5:
-                    if (this.alter_stmt_ != null) {
-                        this.alter_stmt_ = new AlterStmt();
-                        this.alter_stmt_.generate();
-                    }
+                    this.alter_stmt_ = new AlterStmt();
+                    this.alter_stmt_.generate();
                     break;
                 default:
                     throw new AssertionError();
@@ -276,7 +264,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 4;
+            this.caseIdx = Math.abs(random.nextInt()) % 4;
 
             switch (this.caseIdx) {
                 case 0:
@@ -349,7 +337,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 4;
+            this.caseIdx = Math.abs(random.nextInt()) % 4;
 
             switch (this.caseIdx) {
                 case 0:
@@ -442,7 +430,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.select_no_parens_ = new SelectNoParens();
@@ -493,7 +481,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 200;
+            this.caseIdx = Math.abs(random.nextInt()) % 200;
             switch (this.caseIdx) {
                 case 0:
                     this.select_no_parens_ = new SelectNoParens();
@@ -600,7 +588,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 200;
+            this.caseIdx = Math.abs(random.nextInt()) % 200;
             switch (this.caseIdx) {
                 case 0:
                     this.select_clause_ = new SelectClause();
@@ -719,7 +707,7 @@ public interface astNode {
         @Override
         public void generate() {
             //TODO:这里代码获取存在问题
-            this.caseIdx = random.nextInt() % 3;
+            this.caseIdx = Math.abs(random.nextInt()) % 3;
             switch (this.caseIdx) {
                 case 0:
                     break;
@@ -760,7 +748,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.from_clause_ = new FromClause();
@@ -829,7 +817,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.window_clause_ = new WindowClause();
@@ -904,7 +892,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 200;
+            this.caseIdx = Math.abs(random.nextInt()) % 200;
             switch (this.caseIdx) {
                 case 0:
                     this.window_def_ = new WindowDef();
@@ -1057,7 +1045,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.expr_list_ = new ExprList();
@@ -1087,7 +1075,7 @@ public interface astNode {
             IR tmp1;
             IR tmp2;
             IR tmp3;
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     assert (this.range_or_rows_ != null);
@@ -1119,7 +1107,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.range_or_rows_ = new RangeOrRows();
@@ -1154,7 +1142,7 @@ public interface astNode {
         @Override
         public IR translate(List<IR> vIrCollector) {
             IR res;
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     res = new IR(kRangeOrRows, new IROperator("RANGE", "", ""), null, null);
@@ -1216,7 +1204,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.frame_bound_ = new FrameBound();
@@ -1259,7 +1247,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.frame_bound_ = new FrameBound();
@@ -1307,7 +1295,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.expr_ = new Expr();
@@ -1355,7 +1343,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.identifier_ = new Identifier();
@@ -1403,7 +1391,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.expr_list_ = new ExprList();
@@ -1449,7 +1437,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.expr_ = new Expr();
@@ -1492,7 +1480,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.where_clause_ = new WhereClause();
@@ -1684,7 +1672,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.opt_table_prefix_ = new OptTablePrefix();
@@ -1739,7 +1727,7 @@ public interface astNode {
                     this.opt_using_.generate();
                     break;
                 default:
-                    int tmp_case_idx = random.nextInt() % 3;
+                    int tmp_case_idx = Math.abs(random.nextInt()) % 3;
                     switch (tmp_case_idx) {
                         case 0:
                             this.opt_table_prefix_ = new OptTablePrefix();
@@ -1830,7 +1818,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 3;
+            this.caseIdx = Math.abs(random.nextInt()) % 3;
             switch (this.caseIdx) {
                 case 0:
                     this.column_name_ = new ColumnName();
@@ -1875,7 +1863,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.expr_ = new Expr();
@@ -1918,7 +1906,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.column_name_list_ = new ColumnNameList();
@@ -1968,7 +1956,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.column_name_ = new ColumnName();
@@ -2023,7 +2011,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.table_ref_ = new TableRef();
@@ -2072,7 +2060,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 3;
+            this.caseIdx = Math.abs(random.nextInt()) % 3;
             switch (this.caseIdx) {
                 case 0:
                     break;
@@ -2122,7 +2110,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 5;
+            this.caseIdx = Math.abs(random.nextInt()) % 5;
         }
 
         @Override
@@ -2172,7 +2160,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 200;
+            this.caseIdx = Math.abs(random.nextInt()) % 200;
             switch (this.caseIdx) {
                 case 0:
                     this.expr_ = new Expr();
@@ -2230,7 +2218,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.limit_clause_ = new LimitClause();
@@ -2287,7 +2275,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 3;
+            this.caseIdx = Math.abs(random.nextInt()) % 3;
             switch (this.caseIdx) {
                 case 0:
                     this.expr_1_ = new Expr();
@@ -2336,7 +2324,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.expr_ = new Expr();
@@ -2381,7 +2369,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.order_item_list_ = new OrderItemList();
@@ -2423,7 +2411,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 3;
+            this.caseIdx = Math.abs(random.nextInt()) % 3;
         }
 
         @Override
@@ -2463,7 +2451,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.order_item_ = new OrderItem();
@@ -2558,7 +2546,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 3;
+            this.caseIdx = Math.abs(random.nextInt()) % 3;
         }
 
         @Override
@@ -2597,7 +2585,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 3;
+            this.caseIdx = Math.abs(random.nextInt()) % 3;
             switch (this.caseIdx) {
                 case 0:
                 case 1:
@@ -2648,7 +2636,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 200;
+            this.caseIdx = Math.abs(random.nextInt()) % 200;
             switch (this.caseIdx) {
                 case 0:
                     this.cte_table_ = new CteTable();
@@ -2757,7 +2745,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 3;
+            this.caseIdx = Math.abs(random.nextInt()) % 3;
         }
 
         @Override
@@ -2847,7 +2835,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.opt_temp_ = new OptTemp();
@@ -3112,7 +3100,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                 case 1:
@@ -3169,7 +3157,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.table_option_list_ = new TableOptionList();
@@ -3226,7 +3214,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 200;
+            this.caseIdx = Math.abs(random.nextInt()) % 200;
             switch (this.caseIdx) {
                 case 0:
                     this.table_option_ = new TableOption();
@@ -3318,7 +3306,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 9;
+            this.caseIdx = Math.abs(random.nextInt()) % 9;
             switch (this.caseIdx) {
                 case 0:
                 case 1:
@@ -3362,7 +3350,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
         }
 
         @Override
@@ -3394,7 +3382,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 3;
+            this.caseIdx = Math.abs(random.nextInt()) % 3;
         }
 
         @Override
@@ -3429,7 +3417,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 4;
+            this.caseIdx = Math.abs(random.nextInt()) % 4;
         }
 
         @Override
@@ -3461,7 +3449,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 3;
+            this.caseIdx = Math.abs(random.nextInt()) % 3;
         }
 
         @Override
@@ -3493,7 +3481,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 3;
+            this.caseIdx = Math.abs(random.nextInt()) % 3;
         }
 
         @Override
@@ -3533,7 +3521,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 3;
+            this.caseIdx = Math.abs(random.nextInt()) % 3;
             switch (this.caseIdx) {
                 case 0:
                     this.index_algorithm_option_ = new IndexAlgorithmOption();
@@ -3589,7 +3577,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 3;
+            this.caseIdx = Math.abs(random.nextInt()) % 3;
             this.opt_op_equal_ = new OptOpEqual();
             this.opt_op_equal_.generate();
         }
@@ -3637,7 +3625,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 4;
+            this.caseIdx = Math.abs(random.nextInt()) % 4;
             this.opt_op_equal_ = new OptOpEqual();
             this.opt_op_equal_.generate();
         }
@@ -3668,7 +3656,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
         }
 
         @Override
@@ -3700,7 +3688,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 3;
+            this.caseIdx = Math.abs(random.nextInt()) % 3;
         }
 
         @Override
@@ -3755,7 +3743,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
         }
 
         @Override
@@ -3864,7 +3852,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 3;
+            this.caseIdx = Math.abs(random.nextInt()) % 3;
         }
 
         @Override
@@ -4037,7 +4025,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 3;
+            this.caseIdx = Math.abs(random.nextInt()) % 3;
             switch (this.caseIdx) {
                 case 0:
                     this.opt_column_name_list_p_ = new OptColumnNameListP();
@@ -4101,7 +4089,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 200;
+            this.caseIdx = Math.abs(random.nextInt()) % 200;
             switch (this.caseIdx) {
                 case 0:
                     this.values_list_ = new ValuesList();
@@ -4194,7 +4182,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 3;
+            this.caseIdx = Math.abs(random.nextInt()) % 3;
             switch (this.caseIdx) {
                 case 0:
                     this.opt_conflict_expr_ = new OptConflictExpr();
@@ -4248,7 +4236,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.indexed_column_list_ = new IndexedColumnList();
@@ -4302,7 +4290,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 200;
+            this.caseIdx = Math.abs(random.nextInt()) % 200;
             switch (this.caseIdx) {
                 case 0:
                     this.indexed_column_ = new IndexedColumn();
@@ -4440,7 +4428,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             this.table_name_ = new TableName();
             this.table_name_.generate();
             this.opt_as_alias_ = new OptAsAlias();
@@ -4526,7 +4514,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 5;
+            this.caseIdx = Math.abs(random.nextInt()) % 5;
             switch (this.caseIdx) {
                 case 0:
                     this.table_name_ = new TableName();
@@ -4611,7 +4599,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 7;
+            this.caseIdx = Math.abs(random.nextInt()) % 7;
             switch (this.caseIdx) {
                 case 0:
                 case 1:
@@ -4669,7 +4657,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 200;
+            this.caseIdx = Math.abs(random.nextInt()) % 200;
             switch (this.caseIdx) {
                 case 0:
                     this.column_def_ = new ColumnDef();
@@ -4771,7 +4759,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.column_constraint_list_ = new ColumnConstraintList();
@@ -4827,7 +4815,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.column_constraint_ = new ColumnConstraint();
@@ -4907,7 +4895,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.opt_foreign_key_ = new OptForeignKey();
@@ -4958,7 +4946,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.expr_ = new Expr();
@@ -5003,7 +4991,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 3;
+            this.caseIdx = Math.abs(random.nextInt()) % 3;
         }
 
         @Override
@@ -5082,7 +5070,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
         }
 
         @Override
@@ -5115,7 +5103,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.foreign_key_actions_ = new ForeignKeyActions();
@@ -5169,7 +5157,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                 case 1:
@@ -5221,7 +5209,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 5;
+            this.caseIdx = Math.abs(random.nextInt()) % 5;
         }
 
         @Override
@@ -5260,7 +5248,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 3;
+            this.caseIdx = Math.abs(random.nextInt()) % 3;
             switch (this.caseIdx) {
                 case 0:
                 case 1:
@@ -5303,7 +5291,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 3;
+            this.caseIdx = Math.abs(random.nextInt()) % 3;
         }
 
         @Override
@@ -5359,7 +5347,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
         }
 
         @Override
@@ -5394,7 +5382,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 4;
+            this.caseIdx = Math.abs(random.nextInt()) % 4;
         }
 
         @Override
@@ -5427,7 +5415,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.column_name_list_ = new ColumnNameList();
@@ -5477,7 +5465,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 200;
+            this.caseIdx = Math.abs(random.nextInt()) % 200;
             switch (this.caseIdx) {
                 case 0:
                     this.set_clause_ = new SetClause();
@@ -5537,7 +5525,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.column_name_ = new ColumnName();
@@ -5588,7 +5576,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.as_alias_ = new AsAlias();
@@ -5659,7 +5647,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 6;
+            this.caseIdx = Math.abs(random.nextInt()) % 6;
             switch (this.caseIdx) {
                 case 0:
                     this.operand_ = new Operand();
@@ -5777,7 +5765,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 10;
+            this.caseIdx = Math.abs(random.nextInt()) % 10;
             switch (this.caseIdx) {
                 case 0:
                     this.expr_list_ = new ExprList();
@@ -5899,7 +5887,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.column_name_ = new ColumnName();
@@ -5969,7 +5957,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 7;
+            this.caseIdx = Math.abs(random.nextInt()) % 7;
             switch (this.caseIdx) {
                 case 0:
                 case 1:
@@ -6046,7 +6034,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 4;
+            this.caseIdx = Math.abs(random.nextInt()) % 4;
             switch (this.caseIdx) {
                 case 0:
                     this.comp_expr_ = new CompExpr();
@@ -6119,7 +6107,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                 case 1:
@@ -6197,7 +6185,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 3;
+            this.caseIdx = Math.abs(random.nextInt()) % 3;
             switch (this.caseIdx) {
                 case 0:
                     this.operand_ = new Operand();
@@ -6290,7 +6278,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 4;
+            this.caseIdx = Math.abs(random.nextInt()) % 4;
             switch (this.caseIdx) {
                 case 0:
                     this.expr_1_ = new Expr();
@@ -6373,7 +6361,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             this.operand_1_ = new Operand();
             this.operand_1_.generate();
             this.operand_2_ = new Operand();
@@ -6482,7 +6470,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.function_name_ = new FunctionName();
@@ -6539,7 +6527,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
         }
 
         @Override
@@ -6572,7 +6560,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.expr_ = new Expr();
@@ -6621,7 +6609,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 3;
+            this.caseIdx = Math.abs(random.nextInt()) % 3;
             switch (this.caseIdx) {
                 case 0:
                     this.window_ = new Window();
@@ -6676,7 +6664,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.case_clause_ = new CaseClause();
@@ -6795,7 +6783,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 6;
+            this.caseIdx = Math.abs(random.nextInt()) % 6;
             switch (this.caseIdx) {
                 case 0:
                 case 1:
@@ -6879,7 +6867,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 6;
+            this.caseIdx = Math.abs(random.nextInt()) % 6;
         }
 
         @Override
@@ -6980,7 +6968,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 3;
+            this.caseIdx = Math.abs(random.nextInt()) % 3;
             switch (this.caseIdx) {
                 case 0:
                     this.string_literal_ = new StringLiteral();
@@ -7050,7 +7038,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
         }
 
         @Override
@@ -7087,7 +7075,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.int_literal_ = new IntLiteral();
@@ -7175,7 +7163,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
         }
 
         @Override
@@ -7224,7 +7212,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 4;
+            this.caseIdx = Math.abs(random.nextInt()) % 4;
             switch (this.caseIdx) {
                 case 0:
                     this.drop_stmt_ = new DropStmt();
@@ -7276,7 +7264,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
         }
 
         @Override
@@ -7305,7 +7293,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
         }
 
         @Override
@@ -7446,7 +7434,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 4;
+            this.caseIdx = Math.abs(random.nextInt()) % 4;
         }
 
         @Override
@@ -7542,7 +7530,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 6;
+            this.caseIdx = Math.abs(random.nextInt()) % 6;
         }
 
         @Override
@@ -7571,7 +7559,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
         }
 
         @Override
@@ -7634,7 +7622,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.numeric_type_ = new NumericType();
@@ -7683,7 +7671,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.character_with_length_ = new CharacterWithLength();
@@ -7768,7 +7756,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 4;
+            this.caseIdx = Math.abs(random.nextInt()) % 4;
             switch (this.caseIdx) {
                 case 0:
                     this.character_conflicta_ = new CharacterConflicta();
@@ -7833,7 +7821,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 10;
+            this.caseIdx = Math.abs(random.nextInt()) % 10;
         }
 
         @Override
@@ -7895,7 +7883,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 13;
+            this.caseIdx = Math.abs(random.nextInt()) % 13;
         }
 
         @Override
@@ -7928,7 +7916,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 2;
+            this.caseIdx = Math.abs(random.nextInt()) % 2;
             switch (this.caseIdx) {
                 case 0:
                     this.table_constraint_list_ = new TableConstraintList();
@@ -7980,7 +7968,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 200;
+            this.caseIdx = Math.abs(random.nextInt()) % 200;
             switch (this.caseIdx) {
                 case 0:
                     this.table_constraint_ = new TableConstraint();
@@ -8068,7 +8056,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 4;
+            this.caseIdx = Math.abs(random.nextInt()) % 4;
             switch (this.caseIdx) {
                 case 0:
                     this.constraint_name_ = new ConstraintName();
@@ -8137,7 +8125,7 @@ public interface astNode {
 
         @Override
         public void generate() {
-            this.caseIdx = random.nextInt() % 3;
+            this.caseIdx = Math.abs(random.nextInt()) % 3;
         }
 
         @Override

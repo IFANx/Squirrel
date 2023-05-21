@@ -57,6 +57,7 @@ public class Utils {
     public static astNode.Program parser(String sql) {
         //TODO 使用到了flex_lexer.h中的内容
         astNode.Program p = new astNode.Program();
+        System.out.println(p.caseIdx);
 //        yyscan_t scanner;
 //        YY_BUFFER_STATE state;
 //
